@@ -9,15 +9,24 @@ document.addEventListener("DOMContentLoaded", () => {
     cursor.style.left = e.clientX + "px";
   });
 
+  // efekt kliknięcia kursorem
+  document.addEventListener("click", () => {
+    cursor.style.transform = "translate(-50%, -50%) scale(2)";
+    setTimeout(() => {
+      cursor.style.transform = "translate(-50%, -50%) scale(1)";
+    }, 150);
+  });
+
   // dark mode toggle
   const toggle = document.querySelector(".dark-toggle");
   if (toggle) {
     toggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
+      toggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
   }
 
-  // typewriter effect JS
+  // typewriter effect
   const typewriter = document.getElementById("typewriter");
   if (typewriter) {
     const text = typewriter.textContent;
@@ -30,4 +39,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 100);
   }
 });
+
 
