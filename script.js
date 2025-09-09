@@ -1,15 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ---- custom cursor ----
+  // ---- Custom cursor ----
   const cursor = document.createElement("div");
   cursor.classList.add("cursor");
   document.body.appendChild(cursor);
 
   document.addEventListener("mousemove", e => {
-    cursor.style.top = e.clientY + "px";
-    cursor.style.left = e.clientX + "px";
+    cursor.style.top = `${e.clientY}px`;
+    cursor.style.left = `${e.clientX}px`;
   });
 
-  // efekt kliknięcia kursorem
   document.addEventListener("click", () => {
     cursor.style.transform = "translate(-50%, -50%) scale(2)";
     setTimeout(() => {
@@ -17,16 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
   });
 
-  // ---- dark mode toggle z zapamiętywaniem ----
+  // ---- Dark mode toggle z zapamiętywaniem ----
   const toggle = document.querySelector(".dark-toggle");
   if (toggle) {
-    // ustaw tryb z localStorage przy starcie
-    if (localStorage.getItem("darkMode") === "true") {
+    // ustawienie trybu przy ładowaniu strony
+    const darkModeStored = localStorage.getItem("darkMode");
+    if (darkModeStored === "true") {
       document.body.classList.add("dark");
       toggle.textContent = "☀️";
+    } else {
+      toggle.textContent = "🌙";
     }
 
-    // toggle trybu i zapis w localStorage
+    // toggle przy kliknięciu
     toggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
       const isDark = document.body.classList.contains("dark");
@@ -35,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ---- typewriter effect ----
+  // ---- Typewriter effect ----
   const typewriter = document.getElementById("typewriter");
   if (typewriter) {
     const text = typewriter.textContent;
@@ -44,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const typing = setInterval(() => {
       typewriter.textContent += text[i];
       i++;
-      if (i === text.length) clearInterval(typing);
+      if (i >= text.length) clearInterval(typing);
     }, 100);
   }
 });
