@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // custom cursor
+  // ---- custom cursor ----
   const cursor = document.createElement("div");
   cursor.classList.add("cursor");
   document.body.appendChild(cursor);
@@ -17,16 +17,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
   });
 
-  // dark mode toggle
+  // ---- dark mode toggle z zapamiętywaniem ----
   const toggle = document.querySelector(".dark-toggle");
   if (toggle) {
+    // ustaw tryb z localStorage przy starcie
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark");
+      toggle.textContent = "☀️";
+    }
+
+    // toggle trybu i zapis w localStorage
     toggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
-      toggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+      const isDark = document.body.classList.contains("dark");
+      toggle.textContent = isDark ? "☀️" : "🌙";
+      localStorage.setItem("darkMode", isDark);
     });
   }
 
-  // typewriter effect
+  // ---- typewriter effect ----
   const typewriter = document.getElementById("typewriter");
   if (typewriter) {
     const text = typewriter.textContent;
@@ -39,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 100);
   }
 });
+
 
 
 
