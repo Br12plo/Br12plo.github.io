@@ -25,7 +25,8 @@ body {
   font-family: 'Segoe UI', sans-serif;
   color: #333;
   background: #fafafa;
-  cursor: none;
+  cursor: none; /* ukrywamy systemowy kursor */
+  transition: background 0.3s, color 0.3s;
 }
 
 .container {
@@ -84,6 +85,7 @@ body {
   border: 4px solid;
   border-image: linear-gradient(45deg, #ff6a00, #ee0979, #2196f3, #00ffcc) 1;
   animation: borderAnim 5s linear infinite;
+  transition: background 0.3s;
 }
 @keyframes borderAnim {
   0%   { border-image-source: linear-gradient(45deg, #ff6a00, #ee0979); }
@@ -120,7 +122,7 @@ h1, h2 {
 
 /* Dark mode */
 body.dark { background: #121212; color: #eee; }
-body.dark .content { background: rgba(40,40,40,0.5); }
+body.dark .content { background: rgba(40,40,40,0.6); }
 body.dark .fancy-btn { background: linear-gradient(45deg, #444, #777); }
 body.dark .sidebar { background: linear-gradient(270deg, #111, #333, #111); }
 
@@ -163,11 +165,11 @@ body.dark .dark-toggle:hover {
   top: 0; left: 0;
   width: 20px; height: 20px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.8);
   pointer-events: none;
   mix-blend-mode: difference;
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease;
+  transition: transform 0.15s ease;
   z-index: 1000;
 }
 
@@ -200,6 +202,7 @@ body.dark .dark-toggle:hover {
   .container { flex-direction: column; }
   .sidebar { width: 100%; height: auto; position: relative; }
 }
+
 
 
 
