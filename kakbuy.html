@@ -20,7 +20,7 @@
     }
     .background-image {
       position:fixed; inset:0; z-index:-1;
-      background-image: url('docs.google.com/spreadsheets/d/1Pj21m1nw7JrT9Pdvl0vyOm5ypm2oljgPmDSZrPqzilE/edit?usp=drivesdk'); /* 🔗 ZAMIEŃ LINK */
+      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?q=80&w=1600&auto=format&fit=crop'); /* Możesz zmienić tło */
       background-size:cover;
       background-position:center;
       filter: blur(4px) brightness(0.9);
@@ -35,47 +35,3 @@
     .sidebar a.active {background:var(--accent); color:#fff; border-radius:6px;}
     .content {background:rgba(255,255,255,0.7); padding:20px; border-radius:10px;}
     .cards {display:flex; gap:10px; flex-wrap:wrap;}
-    .card {flex:1; min-width:150px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-    .fancy-btn {display:inline-block; margin-top:10px; padding:10px 16px; background:var(--accent); color:#fff; border:none; border-radius:8px; text-decoration:none;}
-  </style>
-</head>
-<body>
-
-  <!-- Tło -->
-  <div class="background-image"></div>
-
-  <!-- Logo -->
-  <img class="overlay-image" src="https://twojadomena.pl/logo.png" alt="Logo"> <!-- 🔗 ZAMIEŃ LINK -->
-
-  <div class="container">
-    <aside class="sidebar">
-      <h2>Menu</h2>
-      <ul>
-        <li><a href="index.html" class="active">Strona Główna</a></li>
-        <li><a href="informacje.html">Informacje</a></li>
-        <li><a href="https://twojadomena.pl" id="customLink">Mój Link</a></li> <!-- 🔗 ZAMIEŃ LINK -->
-        <li><a href="link2.html">Link 2</a></li>
-        <li><a href="galeria.html">Galeria</a></li>
-      </ul>
-    </aside>
-
-    <main class="content">
-      <h1 id="typewriter">Witaj na mojej stronie</h1>
-      <p>To jest główna treść — dodaj tutaj teksty, obrazki lub formularze.</p>
-
-      <div class="cards">
-        <div class="card"><h3>✨ Nowoczesny design</h3><p>Efekt szkła i animacje.</p></div>
-        <div class="card"><h3>⚡ Dynamiczne efekty</h3><p>Tryb ciemny/jasny i animacje.</p></div>
-        <div class="card"><h3>🌍 Proste wdrożenie</h3><p>Działa na GitHub Pages.</p></div>
-      </div>
-
-      <!-- Przycisk CTA z linkiem -->
-      <a href="https://twojadomena.pl" class="fancy-btn">Przejdź do mojego linku</a> <!-- 🔗 ZAMIEŃ LINK -->
-
-      <!-- 🔙 Powrót do głównej strony -->
-      <a href="index.html" class="fancy-btn">⬅ Powrót do strony głównej</a>
-    </main>
-  </div>
-
-</body>
-</html>
