@@ -3,35 +3,140 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Moja Strona</title>
-
+  <title>Strona z linkiem do Arkusza Google</title>
   <style>
-    :root {
-      --bg:#f2f5f9;
-      --accent:#6b9cff;
-      --text:#223;
-      --muted:#5b6b78;
-    }
-    body {
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    .background-image {
-      position:fixed; inset:0; z-index:-1;
-      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?q=80&w=1600&auto=format&fit=crop'); /* Możesz zmienić tło */
-      background-size:cover;
-      background-position:center;
-      filter: blur(4px) brightness(0.9);
-    }
-    .overlay-image {
-      position:fixed; right:20px; top:20px; width:80px; height:80px;
-    }
-    .container {display:grid; grid-template-columns:220px 1fr; gap:20px; padding:40px;}
-    .sidebar {background:rgba(255,255,255,0.7); padding:20px; border-radius:10px;}
-    .sidebar ul {list-style:none; padding:0;}
-    .sidebar a {display:block; padding:6px; margin:4px 0; text-decoration:none; color:var(--text);}
-    .sidebar a.active {background:var(--accent); color:#fff; border-radius:6px;}
-    .content {background:rgba(255,255,255,0.7); padding:20px; border-radius:10px;}
-    .cards {display:flex; gap:10px; flex-wrap:wrap;}
+    :root{ --accent:#4b8cff; --bg:#f4f7fb; --text:#222; --muted:#5b6b78; }
+    body{ margin:0; font-family:Inter, Arial, sans-serif; background:var(--bg); color:var(--text); }
+    .wrap{ max-width:1100px; margin:36px auto; padding:20px; }
+    header{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .menu a{ margin-right:10px; text-decoration:none; color:var(--accent); font-weight:700; }
+    .panel{ background:#fff; border-radius:12px; padding:18px; box-shadow:0 8px 30px rgba(20,30,60,0.06); margin-top:18px; }
+    .fancy-btn{ display:inline-block; padding:10px 14px; border-radius:10px; background:var(--accent); color:white; text-decoration:none; font-weight:700; cursor:pointer; border:0; }
+    .input, input[type="url"]{ width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e3e7ee; margin-top:8px; }
+    label{ font-size:14px; color:var(--muted); }
+    .iframe-wrap{ margin-top:12px; border-radius:8px; overflow:hidden; border:1px solid #e6e9ef; }
+    iframe{ width:100%; height:600px; border:0; display:block; }
+    .note{ font-size:13px; color:var(--muted); margin-top:8px; }
+    footer{ margin-top:20px; font-size:13px; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 style="margin:0 0 6px 0">Moja Strona — Arkusz Google</h1>
+        <div class="note">Masz problem z linkiem? Tu go naprawisz i osadzisz (jeśli arkusz jest opublikowany).</div>
+      </div>
+      <nav class="menu">
+        <!-- POWRÓT DO STRONY GŁÓWNEJ -->
+        <a href="index.html" class="fancy-btn" title="Powrót do strony głównej">⬅ Strona główna</a>
+      </nav>
+    </header>
+
+    <section class="panel">
+      <h2 style="margin-top:0">Link do Twojego arkusza</h2>
+
+      <!-- ---------- 1) AKTYWNY KLIKALNY LINK (otwiera w nowej karcie) ---------- -->
+      <p>
+        <strong>Bezpośredni link (otwierany w nowej karcie):</strong><br>
+        <!-- TUTAJ WPISANY JEST LINK KTÓRY PODAŁEŚ — działa jako zwykły link -->
+        <a id="sheetAnchor" href="https://docs.google.com/spreadsheets/d/1Pj21m1nw7JrT9Pdvl0vyOm5ypm2oljgPmDSZrPqzilE/edit?usp=drivesdk"
+           target="_blank" rel="noopener noreferrer" class="fancy-btn" style="margin-top:8px; display:inline-block;">
+          📊 Otwórz Arkusz Google (nowa karta)
+        </a>
+      </p>
+
+      <!-- dodatkowy przycisk, otwierający link przez JS (czasem bardziej niezawodny przy sandboxach) -->
+      <div style="margin-top:12px;">
+        <button id="openJsBtn" class="fancy-btn">Otwórz arkusz (JS window.open)</button>
+      </div>
+
+      <hr style="margin:16px 0">
+
+      <!-- ---------- 2) EMBED / IFRAME (DZIAŁA JEDYNIE Z LINKIEM 'publish to web') ---------- -->
+      <h3>Osadź arkusz (iframe)</h3>
+      <label for="embedLink">Wklej tutaj link do embed (Publish → Embed lub link zawierający <code>/pubhtml</code>):</label>
+      <input id="embedLink" class="input" type="url"
+             placeholder="Wklej tu link z Publish to web (np. https://docs.google.com/spreadsheets/d/e/AAA.../pubhtml)">
+
+      <div style="margin-top:8px;">
+        <button id="loadEmbed" class="fancy-btn">Załaduj embed w stronie</button>
+        <button id="hideEmbed" class="fancy-btn" style="background:#888888; margin-left:8px;">Ukryj embed</button>
+      </div>
+
+      <div id="embedContainer" class="iframe-wrap" style="display:none; margin-top:12px;">
+        <iframe id="sheetIframe" src="" title="Osadzony arkusz Google"></iframe>
+      </div>
+
+      <p class="note">
+        Uwaga:
+        <ul>
+          <li>Jeśli używasz zwykłego linku <code>.../edit</code>, Google zwykle blokuje osadzanie w <code>iframe</code> (nagłówek <code>X-Frame-Options</code>).</li>
+          <li>Aby osadzić arkusz, w Google Sheets wybierz: <em>File → Publish to the web → Embed</em> i skopiuj link zawierający <code>/pubhtml</code>.</li>
+          <li>Jeśli arkusz nie jest udostępniony publicznie (Anyone with the link), kliknięcie linku otworzy stronę wymagającą logowania/zgody.</li>
+        </ul>
+      </p>
+    </section>
+
+    <footer>
+      Kilka szybkich wskazówek:
+      <ol>
+        <li>Jeśli po kliknięciu widzisz stronę „Prośba o dostęp”, otwórz arkusz w Google i ustaw udostępnianie na: <strong>Anyone with the link — Viewer</strong>.</li>
+        <li>Aby osadzić arkusz bez problemów w iframe użyj opcji <strong>Publish to the web → Embed</strong> (kopiuj link <code>/pubhtml</code>).</li>
+      </ol>
+    </footer>
+  </div>
+
+  <script>
+    // --------- Ustawienia (zmień tu, jeśli chcesz) ----------
+    const SHEET_EDIT_LINK = "https://docs.google.com/spreadsheets/d/1Pj21m1nw7JrT9Pdvl0vyOm5ypm2oljgPmDSZrPqzilE/edit?usp=drivesdk";
+    // -------------------------------------------------------
+
+    // anchor już w HTML używa tego linku — dodatkowo ustawiamy go w JS (na wypadek łatwej podmiany)
+    document.getElementById('sheetAnchor').href = SHEET_EDIT_LINK;
+
+    // przycisk JS open()
+    document.getElementById('openJsBtn').addEventListener('click', () => {
+      // otwórz w nowej karcie za pomocą JS (czasami działa lepiej przy wklejaniu w buttony)
+      const w = window.open(SHEET_EDIT_LINK, '_blank', 'noopener');
+      if(!w) {
+        alert("Przeglądarka zablokowała otwieranie nowej karty. Spróbuj kliknąć bezpośrednio w link.");
+      }
+    });
+
+    // Embed: ładujemy podany link tylko jeśli zawiera '/pubhtml'
+    const embedInput = document.getElementById('embedLink');
+    const loadBtn = document.getElementById('loadEmbed');
+    const hideBtn = document.getElementById('hideEmbed');
+    const iframe = document.getElementById('sheetIframe');
+    const container = document.getElementById('embedContainer');
+
+    loadBtn.addEventListener('click', () => {
+      const val = embedInput.value.trim();
+      if(!val) {
+        alert('Wklej link do embed (Publish to web → Embed). Przykład: https://docs.google.com/spreadsheets/d/e/AAA.../pubhtml');
+        return;
+      }
+      // prosta walidacja: link z publikacją powinien zawierać '/pubhtml'
+      if(val.indexOf('/pubhtml') === -1) {
+        // ostrzeżenie, ale pozwalamy ustawić — większość zwykłych /edit link będzie zablokowana przez Google
+        if(!confirm("Wygląda na to, że to nie jest link 'pubhtml'. Osadzenie może nie zadziałać. Nadal wczytać?")) {
+          return;
+        }
+      }
+      iframe.src = val;
+      container.style.display = 'block';
+      // scroll do iframe
+      setTimeout(()=> iframe.scrollIntoView({behavior:'smooth'}), 120);
+    });
+
+    hideBtn.addEventListener('click', () => {
+      iframe.src = '';
+      container.style.display = 'none';
+    });
+
+    // DODATKOWA UWAGA: jeśli chcesz, by pole embed było już wypełnione przykładowym linkiem,
+    // wklej tam gotowy link z opcji "Publish to web" Google Sheets.
+  </script>
+</body>
+</html>
