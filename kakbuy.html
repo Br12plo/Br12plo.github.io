@@ -3,44 +3,79 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Moja Strona — Szablon</title>
+  <title>Moja Strona</title>
 
   <style>
-    /* ---------- Reset i podstawy ---------- */
-    :root{
+    :root {
       --bg:#f2f5f9;
-      --glass: rgba(255,255,255,0.6);
       --accent:#6b9cff;
       --text:#223;
       --muted:#5b6b78;
-      --card-shadow: 0 6px 20px rgba(34,38,50,0.08);
-      --glass-border: rgba(255,255,255,0.5);
     }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden;
+    body {
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
     }
+    .background-image {
+      position:fixed; inset:0; z-index:-1;
+      background-image: url('docs.google.com/spreadsheets/d/1Pj21m1nw7JrT9Pdvl0vyOm5ypm2oljgPmDSZrPqzilE/edit?usp=drivesdk'); /* 🔗 ZAMIEŃ LINK */
+      background-size:cover;
+      background-position:center;
+      filter: blur(4px) brightness(0.9);
+    }
+    .overlay-image {
+      position:fixed; right:20px; top:20px; width:80px; height:80px;
+    }
+    .container {display:grid; grid-template-columns:220px 1fr; gap:20px; padding:40px;}
+    .sidebar {background:rgba(255,255,255,0.7); padding:20px; border-radius:10px;}
+    .sidebar ul {list-style:none; padding:0;}
+    .sidebar a {display:block; padding:6px; margin:4px 0; text-decoration:none; color:var(--text);}
+    .sidebar a.active {background:var(--accent); color:#fff; border-radius:6px;}
+    .content {background:rgba(255,255,255,0.7); padding:20px; border-radius:10px;}
+    .cards {display:flex; gap:10px; flex-wrap:wrap;}
+    .card {flex:1; min-width:150px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+    .fancy-btn {display:inline-block; margin-top:10px; padding:10px 16px; background:var(--accent); color:#fff; border:none; border-radius:8px; text-decoration:none;}
+  </style>
+</head>
+<body>
 
-    /* ---------- Tło i nakładka ---------- */
-    .background-image{
-      position:fixed; inset:0; z-index:-2;
-      background-image: url('https://images.unsplash.com/photo-1503264116251-35a269479413?q=80&w=1600&auto=format&fit=crop');
-      background-size:cover; background-position:center;
-      filter: saturate(0.9) blur(4px) contrast(0.95) brightness(0.9);
-      transform:scale(1.03);
-    }
-    /* TU WKLEJ LINK DO TŁA — zastąp URL powyżej */
+  <!-- Tło -->
+  <div class="background-image"></div>
 
-    .overlay-image{
-      position:fixed; right:24px; top:24px; width:88px; height:88px; z-index:5;
-      object-fit:contain;
-      filter: drop-shadow(0 6px 20px rgba(0,0,0,0.18));
-      border-radius:12px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.02));
-      padding:6px;
-    }
-    /* TU WKLEJ LINK DO LOGO — edytuj src atrybutu <img class="overlay-image" src="..."> */
+  <!-- Logo -->
+  <img class="overlay-image" src="https://twojadomena.pl/logo.png" alt="Logo"> <!-- 🔗 ZAMIEŃ LINK -->
 
-    /* ---------- Layout ---------- */
-    .container{ displa
+  <div class="container">
+    <aside class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html" class="active">Strona Główna</a></li>
+        <li><a href="informacje.html">Informacje</a></li>
+        <li><a href="https://twojadomena.pl" id="customLink">Mój Link</a></li> <!-- 🔗 ZAMIEŃ LINK -->
+        <li><a href="link2.html">Link 2</a></li>
+        <li><a href="galeria.html">Galeria</a></li>
+      </ul>
+    </aside>
+
+    <main class="content">
+      <h1 id="typewriter">Witaj na mojej stronie</h1>
+      <p>To jest główna treść — dodaj tutaj teksty, obrazki lub formularze.</p>
+
+      <div class="cards">
+        <div class="card"><h3>✨ Nowoczesny design</h3><p>Efekt szkła i animacje.</p></div>
+        <div class="card"><h3>⚡ Dynamiczne efekty</h3><p>Tryb ciemny/jasny i animacje.</p></div>
+        <div class="card"><h3>🌍 Proste wdrożenie</h3><p>Działa na GitHub Pages.</p></div>
+      </div>
+
+      <!-- Przycisk CTA z linkiem -->
+      <a href="https://twojadomena.pl" class="fancy-btn">Przejdź do mojego linku</a> <!-- 🔗 ZAMIEŃ LINK -->
+
+      <!-- 🔙 Powrót do głównej strony -->
+      <a href="index.html" class="fancy-btn">⬅ Powrót do strony głównej</a>
+    </main>
+  </div>
+
+</body>
+</html>
