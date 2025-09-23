@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Instrukcje warunkowe - if/else i switch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+      padding: 40px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+    }
+    .wynik {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Przykład instrukcji warunkowych</h1>
+
+  <p>Podaj liczbę od 1 do 5:</p>
+  <input type="number" id="liczba" min="1" max="5">
+  <button onclick="sprawdz()">Sprawdź</button>
+
+  <div class="wynik" id="wynik"></div>
+
+  <script>
+    function sprawdz() {
+      const liczba = parseInt(document.getElementById("liczba").value);
+      let wynik = "";
+
+      // if...else
+      if (liczba > 3) {
+        wynik += "Ta liczba jest większa od 3.<br>";
+      } else {
+        wynik += "Ta liczba jest mniejsza lub równa 3.<br>";
+      }
+
+      // switch
+      switch (liczba) {
+        case 1:
+          wynik += "Wybrałeś JEDYNKĘ.";
+          break;
+        case 2:
+          wynik += "Wybrałeś DWÓJKĘ.";
+          break;
+        case 3:
+          wynik += "Wybrałeś TRÓJKĘ.";
+          break;
+        case 4:
+          wynik += "Wybrałeś CZWÓRKĘ.";
+          break;
+        case 5:
+          wynik += "Wybrałeś PIĄTKĘ.";
+          break;
+        default:
+          wynik += "Podałeś liczbę spoza zakresu 1–5.";
+      }
+
+      document.getElementById("wynik").innerHTML = wynik;
+    }
+  </script>
+</body>
+</html>
