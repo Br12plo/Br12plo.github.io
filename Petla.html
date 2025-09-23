@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Przykład pętli: for, while, do...while</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f3;
+      text-align: center;
+      padding: 40px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #4caf50;
+      color: white;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .wynik {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      text-align: left;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h1>Instrukcje pętli w JavaScript</h1>
+
+  <p>Kliknij przycisk, aby zobaczyć działanie pętli:</p>
+  <button onclick="pokazPetle()">Pokaż pętle</button>
+
+  <div class="wynik" id="wynik"></div>
+
+  <script>
+    function pokazPetle() {
+      let tekst = "";
+
+      // pętla for
+      tekst += "<strong>Pętla for:</strong><br>";
+      for (let i = 1; i <= 5; i++) {
+        tekst += "i = " + i + "<br>";
+      }
+
+      // pętla while
+      tekst += "<br><strong>Pętla while:</strong><br>";
+      let j = 1;
+      while (j <= 5) {
+        tekst += "j = " + j + "<br>";
+        j++;
+      }
+
+      // pętla do...while
+      tekst += "<br><strong>Pętla do...while:</strong><br>";
+      let k = 1;
+      do {
+        tekst += "k = " + k + "<br>";
+        k++;
+      } while (k <= 5);
+
+      document.getElementById("wynik").innerHTML = tekst;
+    }
+  </script>
+</body>
+</html>
