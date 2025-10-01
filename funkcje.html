@@ -1,277 +1,145 @@
 <!doctype html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Prosta strona z funkcjami — przykÅad</title>
+  <meta charset="utf-8">
+  <title>Prosta strona z funkcjami — przykład</title>
   <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#06b6d4;--glass: rgba(255,255,255,0.04)}
-    *{box-sizing:border-box}
-    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,#081226 0%, #071328 100%); color:#e6eef8; line-height:1.45}
-    .container{max-width:1100px;margin:32px auto;padding:0 20px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .logo{display:flex;align-items:center;gap:10px}
-    .logo .mark{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:700}
-    nav{display:flex;gap:12px}
-    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:8px}
-    nav a:hover{background:var(--glass);color:#fff}
-    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:center;margin-top:28px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:20px;border-radius:14px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
-    h1{font-size:28px;margin:0 0 10px}
-    p.lead{color:var(--muted);margin:0 0 18px}
-    .btn{display:inline-block;background:var(--accent);color:#002; padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:600}
-    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
-    .feature{padding:14px;border-radius:12px;background:rgba(255,255,255,0.02)}
-    form{display:flex;flex-direction:column;gap:10px}
-    input[type=text], input[type=email], textarea{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-    .muted{color:var(--muted);font-size:13px}
-    .task-list{margin-top:8px}
-    .task{display:flex;justify-content:space-between;gap:10px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.01)}
-    footer{margin:40px 0 80px;color:var(--muted);font-size:14px}
-    /* responsive */
-    @media (max-width:880px){ .hero{grid-template-columns:1fr} nav{display:none} .mobile-nav{display:block} }
-    .mobile-nav{display:none}
-    .small{font-size:13px}
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f1724;
+      color: #fff;
+    }
+    header, main, footer { max-width: 900px; margin: auto; padding: 16px; }
+    header { display:flex; justify-content:space-between; align-items:center; }
+    nav a { margin: 0 8px; color:#bbb; text-decoration:none; }
+    nav a:hover { color:#fff; }
+    .btn { padding:6px 12px; border:none; border-radius:6px; cursor:pointer; }
+    .card { background:#1a2335; padding:16px; border-radius:8px; margin-top:14px; }
+    .task { display:flex; justify-content:space-between; margin:6px 0; background:#222c42; padding:6px; border-radius:6px; }
+    input, textarea { width:100%; padding:8px; margin:4px 0; border-radius:6px; border:1px solid #444; background:#0f1724; color:#fff; }
+    footer { text-align:center; font-size:14px; color:#bbb; margin:20px 0; }
     /* modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.7);display:flex;align-items:center;justify-content:center;padding:20px;z-index:80}
-    .modal{max-width:520px;width:100%;background:#071226;padding:20px;border-radius:12px}
-    .hide{display:none}
-    /* theme light */
-    body.light{--bg:#f6fbff;--card:#ffffff;--muted:#475569;--accent:#0ea5a3;color:#07263b;background:linear-gradient(180deg,#ffffff 0%, #f1f8fd 100%)}
+    .modal-backdrop {position:fixed; inset:0; background:rgba(0,0,0,0.7); display:none; align-items:center; justify-content:center;}
+    .modal { background:#fff; color:#000; padding:20px; border-radius:8px; max-width:400px; }
+    /* jasny motyw */
+    body.light { background:#f5f9ff; color:#000; }
+    body.light .card { background:#fff; }
+    body.light input, body.light textarea { background:#fff; color:#000; border:1px solid #ccc; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">
-        <div class="mark">SF</div>
-        <div>
-          <div style="font-weight:700">StronaFunction</div>
-          <div class="small muted">Przykład: HTML + funkcje JS</div>
-        </div>
-      </div>
+  <header>
+    <div><strong>StronaFunction</strong></div>
+    <nav>
+      <a href="#funkcje">Funkcje</a>
+      <a href="#demo">Demo</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <div>
+      <button class="btn" onclick="toggleTheme()">Motyw</button>
+      <button class="btn" onclick="openModal()">O mnie</button>
+    </div>
+  </header>
 
-      <nav aria-label="GÅÃ³wne menu">
-        <a href="#features" onclick="smoothScroll(event,'features')">Funkcje</a>
-        <a href="#demo" onclick="smoothScroll(event,'demo')">Demo</a>
-        <a href="#contact" onclick="smoothScroll(event,'contact')">Kontakt</a>
-      </nav>
+  <main>
+    <section id="funkcje" class="card">
+      <h2>Funkcje</h2>
+      <ul>
+        <li>Walidacja formularza</li>
+        <li>Lista zadań</li>
+        <li>Modal (okno wyskakujące)</li>
+        <li>Przełączanie jasny/ciemny motyw</li>
+      </ul>
+    </section>
 
-      <div style="display:flex;align-items:center;gap:8px">
-        <button class="btn" onclick="toggleTheme()" aria-label="PrzeÅÄcz motyw">Motyw</button>
-        <button class="btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)" onclick="openModal()">O mnie</button>
-        <button class="btn mobile-nav" onclick="toggleMobileMenu()">Menu</button>
-      </div>
-    </header>
+    <section id="demo" class="card">
+      <h3>Lista zadań</h3>
+      <input id="taskInput" type="text" placeholder="Nowe zadanie">
+      <button class="btn" onclick="addTask()">Dodaj</button>
+      <input id="filter" type="text" placeholder="Filtruj zadania" oninput="filterTasks()">
+      <div id="taskList"></div>
+    </section>
 
-    <main>
-      <section class="hero">
-        <div>
-          <div class="card">
-            <h1>Prosta strona z funkcjami JS</h1>
-            <p class="lead">Ta strona pokazuje przykÅadowe funkcje JavaScript: walidacjÄ formularza, tryb jasny/ciemny, modal, lista zadaÅ i prosty filtr. Skopiuj i wklej plik, by od razu zobaczyÄ dziaÅanie.</p>
+    <section class="card">
+      <h3>Formularz kontaktowy</h3>
+      <form id="contactForm" onsubmit="return submitForm(event)">
+        <input id="name" type="text" placeholder="Imię" required>
+        <input id="email" type="email" placeholder="Email" required>
+        <textarea id="message" rows="4" placeholder="Twoja wiadomość (min. 20 znaków)" required></textarea>
+        <button class="btn" type="submit">Wyślij</button>
+        <div id="formStatus"></div>
+      </form>
+    </section>
+  </main>
 
-            <div class="features" id="features">
-              <div class="feature">
-                <strong>Walidacja formularza</strong>
-                <div class="muted">Sprawdzanie emaila i minimalnej dÅugoÅci wiadomoci.</div>
-              </div>
-              <div class="feature">
-                <strong>Lista zadaÅ</strong>
-                <div class="muted">Dodawaj i usuwaj elementy dynamicznie.</div>
-              </div>
-              <div class="feature">
-                <strong>Modal</strong>
-                <div class="muted">PrzykÅad wyskakujÄcego okna z informacjami.</div>
-              </div>
-              <div class="feature">
-                <strong>Motyw</strong>
-                <div class="muted">PrzeÅÄczanie jasny / ciemny przez jednÄ funkcjÄ.</div>
-              </div>
-            </div>
+  <footer>
+    © 2025 StronaFunction — przykład HTML + JS
+  </footer>
 
-          </div>
-
-          <div class="card" style="margin-top:14px">
-            <h3>Demo: lista zadaÅ</h3>
-            <div class="small muted">Dodaj zadanie poniÅ¼ej i sprawdÅº funkcjÄ addTask()</div>
-            <div style="display:flex;gap:8px;margin-top:10px">
-              <input id="taskInput" type="text" placeholder="Nowe zadanie" />
-              <button class="btn" onclick="addTask()">Dodaj</button>
-            </div>
-            <div id="taskList" class="task-list"></div>
-          </div>
-
-        </div>
-
-        <aside>
-          <div class="card" id="demo">
-            <h3>Formularz kontaktowy</h3>
-            <form id="contactForm" onsubmit="return submitForm(event)">
-              <input id="name" name="name" type="text" placeholder="ImiÄ" required />
-              <input id="email" name="email" type="email" placeholder="Email" required />
-              <textarea id="message" name="message" rows="5" placeholder="Twoja wiadomosc (min 20 znakow)" required></textarea>
-              <div style="display:flex;gap:8px;align-items:center">
-                <button class="btn" type="submit">WyÅlij</button>
-                <div id="formStatus" class="muted small"></div>
-              </div>
-            </form>
-          </div>
-
-          <div class="card" style="margin-top:14px">
-            <h4>Filtr zadaÅ</h4>
-            <input id="filter" type="text" placeholder="Filtruj listÄ" oninput="filterTasks()" />
-            <div class="muted small" style="margin-top:6px">Wpisz fragment, by przefiltrowaÄ zÃ³staÅe zadania.</div>
-          </div>
-        </aside>
-      </section>
-
-      <section id="contact" style="margin-top:22px">
-        <div class="card">
-          <h3>Kontakt</h3>
-          <p class="muted">To tylko demo — formularz nie wysyÅa danych na serwer. Funkcja submitForm symuluje wysÅanie.</p>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="muted">© 2025 StronaFunction — przykÅadowa strona napisana w HTML i JS. Napisz, jakie chcesz zmiany.</div>
-    </footer>
-  </div>
-
-  <!-- modal (ukryty dopÃ³ki openModal nie otworzy) -->
-  <div id="modalBackdrop" class="modal-backdrop hide" role="dialog" aria-modal="true">
-    <div class="modal card">
+  <!-- Modal -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
       <h3>O stronie</h3>
-      <p class="muted">To prosty przykład, gdzie kaÅ¼da interakcja realizowana jest przez funkcje JavaScript. Funkcje sÄ opisane w sekcji skryptu.</p>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-        <button class="btn" onclick="closeModal()">Zamknij</button>
-      </div>
+      <p>To prosty przykład strony z JavaScript: lista zadań, formularz, motyw i modal.</p>
+      <button class="btn" onclick="closeModal()">Zamknij</button>
     </div>
   </div>
 
-  <script>
-    // ----------------------
-    // --- STAN I ZDARZENIA ---
-    // ----------------------
-    const taskListEl = document.getElementById('taskList');
-    const tasks = []; // prosty lokalny stan listy
+<script>
+  const tasks = [];
+  const taskListEl = document.getElementById('taskList');
 
-    // Dodaj przykÅadowe zadania
-    const seedTasks = ['Zainstalowac node', 'Napisac dokumentacje', 'Przetestowac formularz'];
-    seedTasks.forEach(t => tasks.push({id:cryptoRandomId(), text:t}));
-    renderTasks();
-
-    // ----------------------
-    // --- FUNKCJE POMOCNICZE ---
-    // ----------------------
-    function cryptoRandomId(){
-      // prosta funkcja id (bez zewnÄtrznych bibliotek)
-      return 'id-' + Math.random().toString(36).slice(2,9);
-    }
-
-    // Smooth scroll
-    function smoothScroll(e, id){
-      e.preventDefault();
-      document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
-    }
-
-    // Theme toggle
-    function toggleTheme(){
-      document.body.classList.toggle('light');
-    }
-
-    // Modal
-    function openModal(){
-      document.getElementById('modalBackdrop').classList.remove('hide');
-    }
-    function closeModal(){
-      document.getElementById('modalBackdrop').classList.add('hide');
-    }
-
-    // Mobile menu (prosty)
-    function toggleMobileMenu(){
-      const nav = document.querySelector('nav');
-      if(nav.style.display === 'flex') nav.style.display = 'none'; else nav.style.display = 'flex';
-    }
-
-    // ----------------------
-    // --- LISTA ZADAŃ ---
-    // ----------------------
-    function renderTasks(filter){
-      taskListEl.innerHTML = '';
-      const needle = filter ? filter.toLowerCase() : null;
-      tasks.forEach(task => {
-        if(needle && !task.text.toLowerCase().includes(needle)) return;
-        const el = document.createElement('div'); el.className = 'task';
-        const left = document.createElement('div'); left.textContent = task.text;
-        const right = document.createElement('div');
-        const del = document.createElement('button'); del.textContent = 'UsuÅ'; del.className='small'; del.onclick = () => removeTask(task.id);
-        right.appendChild(del);
-        el.appendChild(left); el.appendChild(right);
-        taskListEl.appendChild(el);
-      });
-      if((taskListEl.children.length) === 0){
-        const empty = document.createElement('div'); empty.className='muted small'; empty.textContent = 'Brak pasujacych zadan.'; taskListEl.appendChild(empty);
-      }
-    }
-
-    function addTask(){
-      const input = document.getElementById('taskInput');
-      const text = input.value && input.value.trim();
-      if(!text){ alert('Wpisz treÅÄ zadania.'); return; }
-      const newTask = {id: cryptoRandomId(), text};
-      tasks.unshift(newTask); // dodaj na poczatek
-      input.value = '';
-      renderTasks(document.getElementById('filter').value);
-    }
-
-    function removeTask(id){
-      const idx = tasks.findIndex(t=>t.id===id);
-      if(idx>=0){ tasks.splice(idx,1); renderTasks(document.getElementById('filter').value); }
-    }
-
-    function filterTasks(){
-      const q = document.getElementById('filter').value;
-      renderTasks(q);
-    }
-
-    // ----------------------
-    // --- FORMULARZ ---
-    // ----------------------
-    function validateEmail(email){
-      // prosta reguÅa - nie idealna, ale wystarczy do demo
-      return /^\S+@\S+\.\S+$/.test(email);
-    }
-
-    function submitForm(e){
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const message = document.getElementById('message').value.trim();
-      const status = document.getElementById('formStatus');
-
-      if(name.length < 2){ status.textContent = 'ImiÄ jest za krotkie.'; return false; }
-      if(!validateEmail(email)){ status.textContent = 'Niepoprawny email.'; return false; }
-      if(message.length < 20){ status.textContent = 'Wiadomosc musi miec co najmniej 20 znakow.'; return false; }
-
-      status.textContent = 'Wysylam...';
-
-      // symulacja wysylki - w realnej aplikacji tutaj fetch(...)
-      setTimeout(()=>{
-        status.textContent = 'Dziekujemy! Wiadomosc zostala wyslana (symulacja).';
-        document.getElementById('contactForm').reset();
-      }, 700);
-
-      return false;
-    }
-
-    // Accessibility: zamykaj modal na Escape
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape'){ closeModal(); }
+  function renderTasks(filter="") {
+    taskListEl.innerHTML = "";
+    const filtered = tasks.filter(t => t.text.toLowerCase().includes(filter.toLowerCase()));
+    if(filtered.length === 0){ taskListEl.textContent="Brak zadań."; return; }
+    filtered.forEach(t => {
+      const div = document.createElement("div");
+      div.className="task";
+      div.innerHTML = `<span>${t.text}</span><button onclick="removeTask('${t.id}')">Usuń</button>`;
+      taskListEl.appendChild(div);
     });
+  }
 
-  </script>
+  function addTask(){
+    const input = document.getElementById('taskInput');
+    const text = input.value.trim();
+    if(!text){ alert("Podaj treść zadania."); return; }
+    tasks.unshift({id:Date.now().toString(), text});
+    input.value="";
+    renderTasks(document.getElementById('filter').value);
+  }
+
+  function removeTask(id){
+    const i = tasks.findIndex(t=>t.id===id);
+    if(i>-1) tasks.splice(i,1);
+    renderTasks(document.getElementById('filter').value);
+  }
+
+  function filterTasks(){
+    renderTasks(document.getElementById('filter').value);
+  }
+
+  function submitForm(e){
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const msg = document.getElementById("message").value.trim();
+    const status = document.getElementById("formStatus");
+    if(name.length<2){status.textContent="Imię jest za krótkie.";return;}
+    if(!/^\S+@\S+\.\S+$/.test(email)){status.textContent="Niepoprawny email.";return;}
+    if(msg.length<20){status.textContent="Wiadomość musi mieć min. 20 znaków.";return;}
+    status.textContent="Wysyłanie...";
+    setTimeout(()=>status.textContent="Dziękujemy! (symulacja wysyłki)",700);
+  }
+
+  function toggleTheme(){ document.body.classList.toggle("light"); }
+  function openModal(){ document.getElementById("modalBackdrop").style.display="flex"; }
+  function closeModal(){ document.getElementById("modalBackdrop").style.display="none"; }
+
+  document.addEventListener("keydown", e => { if(e.key==="Escape") closeModal(); });
+</script>
 </body>
 </html>
-
