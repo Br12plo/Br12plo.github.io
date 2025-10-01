@@ -17,7 +17,8 @@
     nav a:hover { color:#fff; }
     .btn { padding:6px 12px; border:none; border-radius:6px; cursor:pointer; }
     .card { background:#1a2335; padding:16px; border-radius:8px; margin-top:14px; }
-    .task { display:flex; justify-content:space-between; margin:6px 0; background:#222c42; padding:6px; border-radius:6px; }
+    .task { display:flex; justify-content:space-between; align-items:center; margin:6px 0; background:#222c42; padding:6px; border-radius:6px; }
+    .task.done span { text-decoration: line-through; color:#888; }
     input, textarea { width:100%; padding:8px; margin:4px 0; border-radius:6px; border:1px solid #444; background:#0f1724; color:#fff; }
     footer { text-align:center; font-size:14px; color:#bbb; margin:20px 0; }
     /* modal */
@@ -49,6 +50,7 @@
       <ul>
         <li>Walidacja formularza</li>
         <li>Lista zadań</li>
+        <li>Oznaczanie wykonanych zadań</li>
         <li>Modal (okno wyskakujące)</li>
         <li>Przełączanie jasny/ciemny motyw</li>
       </ul>
@@ -62,7 +64,7 @@
       <div id="taskList"></div>
     </section>
 
-    <section class="card">
+    <section class="card" id="kontakt">
       <h3>Formularz kontaktowy</h3>
       <form id="contactForm" onsubmit="return submitForm(event)">
         <input id="name" type="text" placeholder="Imię" required>
@@ -97,8 +99,13 @@
     if(filtered.length === 0){ taskListEl.textContent="Brak zadań."; return; }
     filtered.forEach(t => {
       const div = document.createElement("div");
-      div.className="task";
-      div.innerHTML = `<span>${t.text}</span><button onclick="removeTask('${t.id}')">Usuń</button>`;
+      div.className = "task" + (t.done ? " done" : "");
+      div.innerHTML = `
+        <span>${t.text}</span>
+        <div>
+          <button onclick="toggleDone('${t.id}')">✓</button>
+          <button onclick="removeTask('${t.id}')">Usuń</button>
+        </div>`;
       taskListEl.appendChild(div);
     });
   }
@@ -107,7 +114,7 @@
     const input = document.getElementById('taskInput');
     const text = input.value.trim();
     if(!text){ alert("Podaj treść zadania."); return; }
-    tasks.unshift({id:Date.now().toString(), text});
+    tasks.unshift({id:Date.now().toString(), text, done:false});
     input.value="";
     renderTasks(document.getElementById('filter').value);
   }
@@ -115,6 +122,12 @@
   function removeTask(id){
     const i = tasks.findIndex(t=>t.id===id);
     if(i>-1) tasks.splice(i,1);
+    renderTasks(document.getElementById('filter').value);
+  }
+
+  function toggleDone(id){
+    const task = tasks.find(t=>t.id===id);
+    if(task){ task.done = !task.done; }
     renderTasks(document.getElementById('filter').value);
   }
 
@@ -143,3 +156,4 @@
 </script>
 </body>
 </html>
+
