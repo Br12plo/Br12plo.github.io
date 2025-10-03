@@ -1,85 +1,261 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Pętle – prawdziwe obliczenia</title>
+  <meta charset="utf-8" />
+  <title>Interaktywne pętle — to Ty liczysz</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #eef2f3;
-      text-align: center;
-      padding: 40px;
+    body { font-family: Arial, Helvetica, sans-serif; background:#f4f7f9; color:#222;
+           padding:30px; }
+    h1 { text-align:center; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            gap:18px; margin-top:20px; }
+    .card {
+      background:#fff; padding:16px; border-radius:10px; box-shadow:0 6px 18px rgba(0,0,0,0.06);
     }
+    label { display:block; margin-bottom:6px; font-weight:600; }
+    input[type="number"] { width:100%; padding:8px; border-radius:6px; border:1px solid #d0d7dd; }
+    .controls { margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
     button {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #4caf50;
-      color: white;
+      padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background:#1f8ef1; color:white;
+      font-weight:600;
     }
-    button:hover {
-      background: #45a049;
-    }
-    .wynik {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #333;
-      text-align: left;
-      display: inline-block;
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
+    button.secondary { background:#6c757d; }
+    button.danger { background:#e74c3c; }
+    .log { margin-top:12px; background:#f8fafc; padding:10px; border-radius:8px;
+           font-family:monospace; height:160px; overflow:auto; white-space:pre-wrap; }
+    .final { margin-top:10px; font-weight:700; color:#0b6623; }
+    small.hint { display:block; margin-top:8px; color:#555; }
   </style>
 </head>
 <body>
-  <h1>Pętle w JavaScript – obliczenia</h1>
+  <h1>Interaktywne pętle — to Ty wykonujesz iteracje</h1>
+  <p style="text-align:center; color:#444">Ustaw <strong>N</strong>, kliknij <em>Inicjalizuj</em>, a potem <em>Następny krok</em> — każda iteracja to Twoje kliknięcie. <br>
+  Możesz też użyć <em>Uruchom automatycznie</em> aby dokończyć pętlę (używane są klasyczne pętle JS).</p>
 
-  <p>Kliknij przycisk, aby uruchomić obliczenia:</p>
-  <button onclick="pokazPetle()">Oblicz</button>
+  <div class="grid">
+    <!-- FOR: sumowanie -->
+    <div class="card" id="card-for">
+      <label>FOR — suma liczb 1..N</label>
+      <input type="number" id="for-n" min="1" value="5">
+      <div class="controls">
+        <button id="for-init">Inicjalizuj</button>
+        <button id="for-next" class="secondary" disabled>Następny krok</button>
+        <button id="for-auto">Uruchom automatycznie</button>
+        <button id="for-reset" class="danger">Reset</button>
+      </div>
+      <div class="log" id="for-log"></div>
+      <div class="final" id="for-final"></div>
+      <small class="hint">Każde kliknięcie "Następny krok" wykona jedną iterację pętli <code>for</code>.</small>
+    </div>
 
-  <div class="wynik" id="wynik"></div>
+    <!-- WHILE: iloczyn -->
+    <div class="card" id="card-while">
+      <label>WHILE — iloczyn (mnożenie) 1..N</label>
+      <input type="number" id="while-n" min="1" value="5">
+      <div class="controls">
+        <button id="while-init">Inicjalizuj</button>
+        <button id="while-next" class="secondary" disabled>Następny krok</button>
+        <button id="while-auto">Uruchom automatycznie</button>
+        <button id="while-reset" class="danger">Reset</button>
+      </div>
+      <div class="log" id="while-log"></div>
+      <div class="final" id="while-final"></div>
+      <small class="hint">Przycisk "Następny krok" wykonuje jedną iterację pętli <code>while</code>.</small>
+    </div>
+
+    <!-- DO...WHILE: Fibonacci -->
+    <div class="card" id="card-dowhile">
+      <label>DO...WHILE — ciąg Fibonacciego (kolejne wyrazy)</label>
+      <input type="number" id="dw-n" min="1" value="8">
+      <div class="controls">
+        <button id="dw-init">Inicjalizuj</button>
+        <button id="dw-next" class="secondary" disabled>Następny krok</button>
+        <button id="dw-auto">Uruchom automatycznie</button>
+        <button id="dw-reset" class="danger">Reset</button>
+      </div>
+      <div class="log" id="dw-log"></div>
+      <div class="final" id="dw-final"></div>
+      <small class="hint">Do...while wykonuje ciało przynajmniej raz — tutaj kliknięcia generują kolejny wyraz ciągu.</small>
+    </div>
+  </div>
 
   <script>
-    function pokazPetle() {
-      let tekst = "";
-
-      // pętla for – suma liczb od 1 do 100
-      let suma = 0;
-      for (let i = 1; i <= 100; i++) {
-        suma += i;
-      }
-      tekst += "Suma liczb od 1 do 100 (for): " + suma + "<br>";
-
-      // pętla while – silnia z 5
-      let n = 5;
-      let silnia = 1;
-      let j = 1;
-      while (j <= n) {
-        silnia *= j;
-        j++;
-      }
-      tekst += "Silnia z 5 (while): " + silnia + "<br>";
-
-      // pętla do...while – potęga liczby 2^10
-      let potega = 1;
-      let k = 1;
-      do {
-        potega *= 2;
-        k++;
-      } while (k <= 10);
-      tekst += "2^10 (do...while): " + potega + "<br>";
-
-      document.getElementById("wynik").innerHTML = tekst;
+    // Pomocnicze: ograniczenie N do rozsądnej wartości
+    function clampN(n) {
+      n = parseInt(n) || 0;
+      if (n < 1) n = 1;
+      if (n > 500) n = 500; // zabezpieczenie przed ogromnymi pętlami
+      return n;
     }
+
+    /* ------- FOR (suma) ------- */
+    const forState = { N:0, i:1, sum:0, active:false };
+    const forLog = document.getElementById('for-log');
+    const forFinal = document.getElementById('for-final');
+    document.getElementById('for-init').addEventListener('click', () => {
+      forState.N = clampN(document.getElementById('for-n').value);
+      forState.i = 1;
+      forState.sum = 0;
+      forState.active = true;
+      forLog.textContent = `Inicjalizacja: N = ${forState.N}\n`;
+      forFinal.textContent = '';
+      document.getElementById('for-next').disabled = false;
+    });
+    document.getElementById('for-next').addEventListener('click', () => {
+      if (!forState.active) return;
+      if (forState.i <= forState.N) {
+        const prev = forState.sum;
+        forState.sum += forState.i;
+        forLog.textContent += `${prev} + ${forState.i} = ${forState.sum}\n`;
+        forState.i++;
+        if (forState.i > forState.N) {
+          forFinal.textContent = `WYNIK: suma 1..${forState.N} = ${forState.sum}`;
+          document.getElementById('for-next').disabled = true;
+          forState.active = false;
+        }
+      }
+    });
+    document.getElementById('for-auto').addEventListener('click', () => {
+      // wykonaj resztę pętlą for (szybko)
+      if (!forState.active) {
+        // jeśli nie zainicjalizowane — zainicjalizuj
+        document.getElementById('for-init').click();
+      }
+      for (let i = forState.i; i <= forState.N; i++) {
+        const prev = forState.sum;
+        forState.sum += i;
+        forLog.textContent += `${prev} + ${i} = ${forState.sum}\n`;
+      }
+      forState.i = forState.N + 1;
+      forState.active = false;
+      document.getElementById('for-next').disabled = true;
+      forFinal.textContent = `WYNIK: suma 1..${forState.N} = ${forState.sum}`;
+    });
+    document.getElementById('for-reset').addEventListener('click', () => {
+      forState.N = forState.i = forState.sum = 0;
+      forState.active = false;
+      forLog.textContent = '';
+      forFinal.textContent = '';
+      document.getElementById('for-next').disabled = true;
+    });
+
+    /* ------- WHILE (iloczyn) ------- */
+    const whileState = { N:0, j:1, prod:1, active:false };
+    const whileLog = document.getElementById('while-log');
+    const whileFinal = document.getElementById('while-final');
+    document.getElementById('while-init').addEventListener('click', () => {
+      whileState.N = clampN(document.getElementById('while-n').value);
+      whileState.j = 1;
+      whileState.prod = 1;
+      whileState.active = true;
+      whileLog.textContent = `Inicjalizacja: N = ${whileState.N}\n`;
+      whileFinal.textContent = '';
+      document.getElementById('while-next').disabled = false;
+    });
+    document.getElementById('while-next').addEventListener('click', () => {
+      if (!whileState.active) return;
+      if (whileState.j <= whileState.N) {
+        const prev = whileState.prod;
+        whileState.prod *= whileState.j;
+        whileLog.textContent += `${prev} × ${whileState.j} = ${whileState.prod}\n`;
+        whileState.j++;
+        if (whileState.j > whileState.N) {
+          whileFinal.textContent = `WYNIK: iloczyn 1..${whileState.N} = ${whileState.prod}`;
+          document.getElementById('while-next').disabled = true;
+          whileState.active = false;
+        }
+      }
+    });
+    document.getElementById('while-auto').addEventListener('click', () => {
+      if (!whileState.active) document.getElementById('while-init').click();
+      // użyj klasycznej pętli while do dokończenia obliczeń
+      while (whileState.j <= whileState.N) {
+        const prev = whileState.prod;
+        whileState.prod *= whileState.j;
+        whileLog.textContent += `${prev} × ${whileState.j} = ${whileState.prod}\n`;
+        whileState.j++;
+      }
+      whileState.active = false;
+      document.getElementById('while-next').disabled = true;
+      whileFinal.textContent = `WYNIK: iloczyn 1..${whileState.N} = ${whileState.prod}`;
+    });
+    document.getElementById('while-reset').addEventListener('click', () => {
+      whileState.N = whileState.j = whileState.prod = 0;
+      whileState.active = false;
+      whileLog.textContent = '';
+      whileFinal.textContent = '';
+      document.getElementById('while-next').disabled = true;
+    });
+
+    /* ------- DO...WHILE (Fibonacci) ------- */
+    const dwState = { N:0, index:0, a:0, b:1, active:false };
+    const dwLog = document.getElementById('dw-log');
+    const dwFinal = document.getElementById('dw-final');
+    document.getElementById('dw-init').addEventListener('click', () => {
+      dwState.N = clampN(document.getElementById('dw-n').value);
+      dwLog.textContent = `Inicjalizacja: N = ${dwState.N}\n`;
+      dwState.a = 1; // F1
+      dwState.b = 1; // F2
+      if (dwState.N === 1) {
+        dwLog.textContent += `F1 = 1\n`;
+        dwFinal.textContent = `WYNIK: F1 = 1`;
+        dwState.active = false;
+        document.getElementById('dw-next').disabled = true;
+        return;
+      }
+      // N >= 2
+      dwLog.textContent += `F1 = 1\nF2 = 1\n`;
+      dwState.index = 2; // mamy wyznaczone 2 pierwsze
+      dwState.active = true;
+      dwFinal.textContent = '';
+      document.getElementById('dw-next').disabled = false;
+    });
+    document.getElementById('dw-next').addEventListener('click', () => {
+      if (!dwState.active) return;
+      if (dwState.index < dwState.N) {
+        // wykonaj jedną iterację (ciało do...while)
+        const c = dwState.a + dwState.b;
+        const nextIndex = dwState.index + 1;
+        dwLog.textContent += `F${nextIndex} = ${dwState.a} + ${dwState.b} = ${c}\n`;
+        // przesunięcie
+        dwState.a = dwState.b;
+        dwState.b = c;
+        dwState.index = nextIndex;
+        if (dwState.index >= dwState.N) {
+          dwFinal.textContent = `WYNIK: F${dwState.N} = ${dwState.b}`;
+          document.getElementById('dw-next').disabled = true;
+          dwState.active = false;
+        }
+      }
+    });
+    document.getElementById('dw-auto').addEventListener('click', () => {
+      if (!dwState.active) document.getElementById('dw-init').click();
+      // użyj do...while do dokończenia
+      if (!dwState.active) return; // np. gdy N==1
+      do {
+        const c = dwState.a + dwState.b;
+        const nextIndex = dwState.index + 1;
+        dwLog.textContent += `F${nextIndex} = ${dwState.a} + ${dwState.b} = ${c}\n`;
+        dwState.a = dwState.b;
+        dwState.b = c;
+        dwState.index = nextIndex;
+      } while (dwState.index < dwState.N);
+      dwState.active = false;
+      document.getElementById('dw-next').disabled = true;
+      dwFinal.textContent = `WYNIK: F${dwState.N} = ${dwState.b}`;
+    });
+    document.getElementById('dw-reset').addEventListener('click', () => {
+      dwState.N = dwState.index = dwState.a = dwState.b = 0;
+      dwState.active = false;
+      dwLog.textContent = '';
+      dwFinal.textContent = '';
+      document.getElementById('dw-next').disabled = true;
+    });
+
   </script>
 </body>
 </html>
+
 
 
 
