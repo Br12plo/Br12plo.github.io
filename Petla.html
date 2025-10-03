@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Pętle z obliczeniami</title>
+  <title>Pętle – obliczanie krok po kroku</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,10 +38,10 @@
   </style>
 </head>
 <body>
-  <h1>Pętle w JavaScript – prawdziwe obliczenia</h1>
+  <h1>Pętle w JavaScript – liczymy w pętli</h1>
 
-  <p>Kliknij przycisk, aby zobaczyć działanie pętli:</p>
-  <button onclick="pokazPetle()">Pokaż obliczenia</button>
+  <p>Kliknij przycisk, aby zobaczyć jak pętla liczy:</p>
+  <button onclick="pokazPetle()">Pokaż działanie pętli</button>
 
   <div class="wynik" id="wynik"></div>
 
@@ -49,29 +49,31 @@
     function pokazPetle() {
       let tekst = "";
 
-      // pętla for – kwadraty liczb
-      tekst += "<strong>Pętla for (kwadraty liczb od 1 do 5):</strong><br>";
+      // pętla for – liczenie sumy
+      tekst += "<strong>Pętla for – suma liczb od 1 do 5:</strong><br>";
+      let suma = 0;
       for (let i = 1; i <= 5; i++) {
-        tekst += i + " × " + i + " = " + (i * i) + "<br>";
+        suma += i;
+        tekst += "Dodaję " + i + " → suma = " + suma + "<br>";
       }
 
-      // pętla while – suma liczb
-      tekst += "<br><strong>Pętla while (suma liczb od 1 do 5):</strong><br>";
+      // pętla while – liczenie iloczynu
+      tekst += "<br><strong>Pętla while – iloczyn liczb od 1 do 5:</strong><br>";
       let j = 1;
-      let suma = 0;
+      let iloczyn = 1;
       while (j <= 5) {
-        suma += j;
-        tekst += "Dodaję " + j + " → suma = " + suma + "<br>";
+        iloczyn *= j;
+        tekst += "Mnożę przez " + j + " → iloczyn = " + iloczyn + "<br>";
         j++;
       }
 
-      // pętla do...while – potęgi liczby 2
-      tekst += "<br><strong>Pętla do...while (potęgi liczby 2):</strong><br>";
+      // pętla do...while – silnia
+      tekst += "<br><strong>Pętla do...while – silnia liczby 5:</strong><br>";
       let k = 1;
-      let wynikPotegi = 1;
+      let silnia = 1;
       do {
-        wynikPotegi *= 2;
-        tekst += "2^" + k + " = " + wynikPotegi + "<br>";
+        silnia *= k;
+        tekst += k + "! = " + silnia + "<br>";
         k++;
       } while (k <= 5);
 
