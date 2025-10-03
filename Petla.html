@@ -30,6 +30,20 @@
       color: #333;
       text-align: left;
       display: inline-block;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .powrot {
+      margin-top: 20px;
+      display: block;
+      font-size: 16px;
+      text-decoration: none;
+      color: #0077cc;
+    }
+    .powrot:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -40,6 +54,8 @@
   <button onclick="pokazPetle()">Pokaż pętle</button>
 
   <div class="wynik" id="wynik"></div>
+
+  <a href="index.html" class="powrot">⬅ Powrót</a>
 
   <script>
     function pokazPetle() {
@@ -70,6 +86,6 @@
       document.getElementById("wynik").innerHTML = tekst;
     }
   </script>
-   <li><a href="index.html">⬅ Powrót</a></li>
 </body>
 </html>
+
