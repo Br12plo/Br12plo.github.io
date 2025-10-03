@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Pętle – obliczanie krok po kroku</title>
+  <title>Pętle – prawdziwe obliczenia</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -38,10 +38,10 @@
   </style>
 </head>
 <body>
-  <h1>Pętle w JavaScript – liczymy w pętli</h1>
+  <h1>Pętle w JavaScript – obliczenia</h1>
 
-  <p>Kliknij przycisk, aby zobaczyć jak pętla liczy:</p>
-  <button onclick="pokazPetle()">Pokaż działanie pętli</button>
+  <p>Kliknij przycisk, aby uruchomić obliczenia:</p>
+  <button onclick="pokazPetle()">Oblicz</button>
 
   <div class="wynik" id="wynik"></div>
 
@@ -49,39 +49,38 @@
     function pokazPetle() {
       let tekst = "";
 
-      // pętla for – liczenie sumy
-      tekst += "<strong>Pętla for – suma liczb od 1 do 5:</strong><br>";
+      // pętla for – suma liczb od 1 do 100
       let suma = 0;
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 100; i++) {
         suma += i;
-        tekst += "Dodaję " + i + " → suma = " + suma + "<br>";
       }
+      tekst += "Suma liczb od 1 do 100 (for): " + suma + "<br>";
 
-      // pętla while – liczenie iloczynu
-      tekst += "<br><strong>Pętla while – iloczyn liczb od 1 do 5:</strong><br>";
+      // pętla while – silnia z 5
+      let n = 5;
+      let silnia = 1;
       let j = 1;
-      let iloczyn = 1;
-      while (j <= 5) {
-        iloczyn *= j;
-        tekst += "Mnożę przez " + j + " → iloczyn = " + iloczyn + "<br>";
+      while (j <= n) {
+        silnia *= j;
         j++;
       }
+      tekst += "Silnia z 5 (while): " + silnia + "<br>";
 
-      // pętla do...while – silnia
-      tekst += "<br><strong>Pętla do...while – silnia liczby 5:</strong><br>";
+      // pętla do...while – potęga liczby 2^10
+      let potega = 1;
       let k = 1;
-      let silnia = 1;
       do {
-        silnia *= k;
-        tekst += k + "! = " + silnia + "<br>";
+        potega *= 2;
         k++;
-      } while (k <= 5);
+      } while (k <= 10);
+      tekst += "2^10 (do...while): " + potega + "<br>";
 
       document.getElementById("wynik").innerHTML = tekst;
     }
   </script>
 </body>
 </html>
+
 
 
 
