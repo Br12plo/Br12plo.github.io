@@ -38,10 +38,10 @@
   </style>
 </head>
 <body>
-  <h1>Pętle w JavaScript z obliczeniami</h1>
+  <h1>Pętle w JavaScript – prawdziwe obliczenia</h1>
 
   <p>Kliknij przycisk, aby zobaczyć działanie pętli:</p>
-  <button onclick="pokazPetle()">Pokaż pętle</button>
+  <button onclick="pokazPetle()">Pokaż obliczenia</button>
 
   <div class="wynik" id="wynik"></div>
 
@@ -50,14 +50,13 @@
       let tekst = "";
 
       // pętla for – kwadraty liczb
-      tekst += "<strong>Pętla for (kwadraty):</strong><br>";
+      tekst += "<strong>Pętla for (kwadraty liczb od 1 do 5):</strong><br>";
       for (let i = 1; i <= 5; i++) {
-        let kwadrat = i * i;
-        tekst += i + "² = " + kwadrat + "<br>";
+        tekst += i + " × " + i + " = " + (i * i) + "<br>";
       }
 
       // pętla while – suma liczb
-      tekst += "<br><strong>Pętla while (suma):</strong><br>";
+      tekst += "<br><strong>Pętla while (suma liczb od 1 do 5):</strong><br>";
       let j = 1;
       let suma = 0;
       while (j <= 5) {
@@ -66,13 +65,13 @@
         j++;
       }
 
-      // pętla do...while – silnia
-      tekst += "<br><strong>Pętla do...while (silnia):</strong><br>";
+      // pętla do...while – potęgi liczby 2
+      tekst += "<br><strong>Pętla do...while (potęgi liczby 2):</strong><br>";
       let k = 1;
-      let silnia = 1;
+      let wynikPotegi = 1;
       do {
-        silnia *= k;
-        tekst += k + "! = " + silnia + "<br>";
+        wynikPotegi *= 2;
+        tekst += "2^" + k + " = " + wynikPotegi + "<br>";
         k++;
       } while (k <= 5);
 
@@ -81,6 +80,7 @@
   </script>
 </body>
 </html>
+
 
 
 
