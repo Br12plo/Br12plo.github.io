@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Przykład pętli: for, while, do...while</title>
+  <title>Pętle z obliczeniami</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -35,51 +35,44 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-    .powrot {
-      margin-top: 20px;
-      display: block;
-      font-size: 16px;
-      text-decoration: none;
-      color: #0077cc;
-    }
-    .powrot:hover {
-      text-decoration: underline;
-    }
   </style>
 </head>
 <body>
-  <h1>Instrukcje pętli w JavaScript</h1>
+  <h1>Pętle w JavaScript z obliczeniami</h1>
 
   <p>Kliknij przycisk, aby zobaczyć działanie pętli:</p>
   <button onclick="pokazPetle()">Pokaż pętle</button>
 
   <div class="wynik" id="wynik"></div>
 
-  <a href="index.html" class="powrot">⬅ Powrót</a>
-
   <script>
     function pokazPetle() {
       let tekst = "";
 
-      // pętla for
-      tekst += "<strong>Pętla for:</strong><br>";
+      // pętla for – kwadraty liczb
+      tekst += "<strong>Pętla for (kwadraty):</strong><br>";
       for (let i = 1; i <= 5; i++) {
-        tekst += "i = " + i + "<br>";
+        let kwadrat = i * i;
+        tekst += i + "² = " + kwadrat + "<br>";
       }
 
-      // pętla while
-      tekst += "<br><strong>Pętla while:</strong><br>";
+      // pętla while – suma liczb
+      tekst += "<br><strong>Pętla while (suma):</strong><br>";
       let j = 1;
+      let suma = 0;
       while (j <= 5) {
-        tekst += "j = " + j + "<br>";
+        suma += j;
+        tekst += "Dodaję " + j + " → suma = " + suma + "<br>";
         j++;
       }
 
-      // pętla do...while
-      tekst += "<br><strong>Pętla do...while:</strong><br>";
+      // pętla do...while – silnia
+      tekst += "<br><strong>Pętla do...while (silnia):</strong><br>";
       let k = 1;
+      let silnia = 1;
       do {
-        tekst += "k = " + k + "<br>";
+        silnia *= k;
+        tekst += k + "! = " + silnia + "<br>";
         k++;
       } while (k <= 5);
 
@@ -88,4 +81,5 @@
   </script>
 </body>
 </html>
+
 
