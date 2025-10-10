@@ -2,71 +2,141 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Pętle i instrukcje warunkowe w JavaScript</title>
+  <title>Pętle i instrukcje warunkowe</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .wynik {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #eef5ff;
+      border-radius: 8px;
+    }
+
+    .sekcja {
+      margin-top: 15px;
+    }
+
+    .sekcja h2 {
+      margin-bottom: 5px;
+      color: #007bff;
+    }
+  </style>
 </head>
 <body>
 
-  <h1>Pętle i instrukcje warunkowe (bez CSS)</h1>
+  <div class="container">
+    <h1>Pętle i instrukcje warunkowe</h1>
+    <p>Wpisz liczbę (do której chcesz sprawdzić liczby od 1 do n):</p>
 
-  <h2>Pętla for</h2>
-  <div id="for-loop"></div>
+    <input type="number" id="liczba" placeholder="Wpisz liczbę np. 10">
+    <button onclick="pokazWyniki()">Pokaż wyniki</button>
 
-  <h2>Pętla while</h2>
-  <div id="while-loop"></div>
-
-  <h2>Pętla do...while</h2>
-  <div id="do-while-loop"></div>
+    <div class="wynik" id="wynik">
+      <p><i>Wyniki pojawią się tutaj...</i></p>
+    </div>
+  </div>
 
   <script>
-    // --- PĘTLA FOR ---
-    let wynikFor = "";
-    for (let i = 1; i <= 10; i++) {
-      if (i === 5) {
-        wynikFor += "FOR → Liczba " + i + " to moja ulubiona liczba! 🎯<br>";
-      } else if (i % 2 === 0) {
-        wynikFor += "FOR → Liczba " + i + " jest parzysta.<br>";
-      } else {
-        wynikFor += "FOR → Liczba " + i + " jest nieparzysta.<br>";
+    function pokazWyniki() {
+      const n = parseInt(document.getElementById("liczba").value);
+      const wynikDiv = document.getElementById("wynik");
+
+      if (isNaN(n) || n <= 0) {
+        wynikDiv.innerHTML = "<p>❌ Podaj liczbę większą od zera!</p>";
+        return;
       }
+
+      let wynikHTML = "";
+
+      // --- PĘTLA FOR ---
+      wynikHTML += "<div class='sekcja'><h2>Pętla for:</h2>";
+      for (let i = 1; i <= n; i++) {
+        if (i === 5) {
+          wynikHTML += "FOR → Liczba " + i + " to moja ulubiona liczba! 🎯<br>";
+        } else if (i % 2 === 0) {
+          wynikHTML += "FOR → Liczba " + i + " jest parzysta.<br>";
+        } else {
+          wynikHTML += "FOR → Liczba " + i + " jest nieparzysta.<br>";
+        }
+      }
+      wynikHTML += "</div>";
+
+      // --- PĘTLA WHILE ---
+      wynikHTML += "<div class='sekcja'><h2>Pętla while:</h2>";
+      let j = 1;
+      while (j <= n) {
+        if (j === 5) {
+          wynikHTML += "WHILE → Liczba " + j + " to moja ulubiona liczba! 🎯<br>";
+        } else if (j % 2 === 0) {
+          wynikHTML += "WHILE → Liczba " + j + " jest parzysta.<br>";
+        } else {
+          wynikHTML += "WHILE → Liczba " + j + " jest nieparzysta.<br>";
+        }
+        j++;
+      }
+      wynikHTML += "</div>";
+
+      // --- PĘTLA DO...WHILE ---
+      wynikHTML += "<div class='sekcja'><h2>Pętla do...while:</h2>";
+      let k = 1;
+      do {
+        if (k === 5) {
+          wynikHTML += "DO...WHILE → Liczba " + k + " to moja ulubiona liczba! 🎯<br>";
+        } else if (k % 2 === 0) {
+          wynikHTML += "DO...WHILE → Liczba " + k + " jest parzysta.<br>";
+        } else {
+          wynikHTML += "DO...WHILE → Liczba " + k + " jest nieparzysta.<br>";
+        }
+        k++;
+      } while (k <= n);
+      wynikHTML += "</div>";
+
+      wynikDiv.innerHTML = wynikHTML;
     }
-    document.getElementById("for-loop").innerHTML = wynikFor;
-
-
-    // --- PĘTLA WHILE ---
-    let j = 1;
-    let wynikWhile = "";
-    while (j <= 10) {
-      if (j === 5) {
-        wynikWhile += "WHILE → Liczba " + j + " to moja ulubiona liczba! 🎯<br>";
-      } else if (j % 2 === 0) {
-        wynikWhile += "WHILE → Liczba " + j + " jest parzysta.<br>";
-      } else {
-        wynikWhile += "WHILE → Liczba " + j + " jest nieparzysta.<br>";
-      }
-      j++;
-    }
-    document.getElementById("while-loop").innerHTML = wynikWhile;
-
-
-    // --- PĘTLA DO...WHILE ---
-    let k = 1;
-    let wynikDoWhile = "";
-    do {
-      if (k === 5) {
-        wynikDoWhile += "DO...WHILE → Liczba " + k + " to moja ulubiona liczba! 🎯<br>";
-      } else if (k % 2 === 0) {
-        wynikDoWhile += "DO...WHILE → Liczba " + k + " jest parzysta.<br>";
-      } else {
-        wynikDoWhile += "DO...WHILE → Liczba " + k + " jest nieparzysta.<br>";
-      }
-      k++;
-    } while (k <= 10);
-    document.getElementById("do-while-loop").innerHTML = wynikDoWhile;
-
   </script>
 
 </body>
 </html>
+
 
 
 
