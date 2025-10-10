@@ -2,50 +2,38 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Pętle w JavaScript</title>
+  <title>Pętle i instrukcje warunkowe w JavaScript</title>
 </head>
 <body>
 
-  <h1>Pętle w JavaScript (bez CSS)</h1>
+  <h1>Pętle i instrukcje warunkowe (bez CSS)</h1>
 
-  <h2>Pętla for</h2>
-  <div id="for-loop"></div>
-
-  <h2>Pętla while</h2>
-  <div id="while-loop"></div>
-
-  <h2>Pętla do...while</h2>
-  <div id="do-while-loop"></div>
+  <h2>Wynik działania programu:</h2>
+  <div id="wynik"></div>
 
   <script>
-    // Pętla for
-    let forResult = "";
-    for (let i = 1; i <= 5; i++) {
-      forResult += "Liczba " + i + "<br>";
-    }
-    document.getElementById("for-loop").innerHTML = forResult;
+    let wynik = "";
 
-    // Pętla while
-    let j = 1;
-    let whileResult = "";
-    while (j <= 5) {
-      whileResult += "Liczba " + j + "<br>";
-      j++;
-    }
-    document.getElementById("while-loop").innerHTML = whileResult;
+    // Pętla for od 1 do 10
+    for (let i = 1; i <= 10; i++) {
 
-    // Pętla do...while
-    let k = 1;
-    let doWhileResult = "";
-    do {
-      doWhileResult += "Liczba " + k + "<br>";
-      k++;
-    } while (k <= 5);
-    document.getElementById("do-while-loop").innerHTML = doWhileResult;
+      // Instrukcja warunkowa sprawdzająca właściwości liczby
+      if (i === 5) {
+        wynik += "Liczba " + i + " — to moja ulubiona liczba! 🎯<br>";
+      } else if (i % 2 === 0) {
+        wynik += "Liczba " + i + " jest parzysta.<br>";
+      } else {
+        wynik += "Liczba " + i + " jest nieparzysta.<br>";
+      }
+    }
+
+    // Wyświetlamy wynik na stronie
+    document.getElementById("wynik").innerHTML = wynik;
   </script>
 
 </body>
 </html>
+
 
 
 
