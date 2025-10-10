@@ -2,49 +2,51 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Pętle w tabeli – ćwiczenie</title>
-  <style>
-    body { font-family: Arial, sans-serif; text-align:center; background:#f4f7f9; padding:30px; }
-    table { border-collapse: collapse; margin:20px auto; background:white; box-shadow:0 3px 8px rgba(0,0,0,0.1); }
-    th, td { border:1px solid #ccc; padding:10px 15px; }
-    th { background:#e0e6eb; }
-    input[type="number"] { width:80px; padding:5px; text-align:center; }
-    .correct { background:#c8f7c5; }
-    .wrong { background:#f7c5c5; }
-    button { margin-top:15px; padding:10px 20px; background:#4caf50; border:none; border-radius:6px; color:white; font-weight:bold; cursor:pointer; }
-    button:hover { background:#45a049; }
-  </style>
+  <title>Pętle w JavaScript</title>
 </head>
 <body>
-  <h1>Pętla for – ćwiczenie w tabelce</h1>
-  <p>Oblicz kwadraty liczb od 1 do 5 i wpisz do tabeli:</p>
 
-  <table id="petlaTabela">
-    <tr><th>Liczba (i)</th><th>i × i</th><th>Twoja odpowiedź</th></tr>
-  </table>
+  <h1>Pętle w JavaScript (bez CSS)</h1>
 
-  <button onclick="sprawdz()">Sprawdź odpowiedzi</button>
+  <h2>Pętla for</h2>
+  <div id="for-loop"></div>
+
+  <h2>Pętla while</h2>
+  <div id="while-loop"></div>
+
+  <h2>Pętla do...while</h2>
+  <div id="do-while-loop"></div>
 
   <script>
-    // Generowanie tabeli przy pomocy pętli for
-    let tabela = document.getElementById("petlaTabela");
+    // Pętla for
+    let forResult = "";
     for (let i = 1; i <= 5; i++) {
-      let wiersz = document.createElement("tr");
+      forResult += "Liczba " + i + "<br>";
+    }
+    document.getElementById("for-loop").innerHTML = forResult;
 
-      let td1 = document.createElement("td");
-      td1.textContent = i;
+    // Pętla while
+    let j = 1;
+    let whileResult = "";
+    while (j <= 5) {
+      whileResult += "Liczba " + j + "<br>";
+      j++;
+    }
+    document.getElementById("while-loop").innerHTML = whileResult;
 
-      let td2 = document.createElement("td");
-      td2.textContent = i + " × " + i;
+    // Pętla do...while
+    let k = 1;
+    let doWhileResult = "";
+    do {
+      doWhileResult += "Liczba " + k + "<br>";
+      k++;
+    } while (k <= 5);
+    document.getElementById("do-while-loop").innerHTML = doWhileResult;
+  </script>
 
-      let td3 = document.createElement("td");
-      let input = document.createElement("input");
-      input.type = "number";
-      input.dataset.poprawna = i * i; // zapisz poprawny wynik w atrybucie
-      td3.appendChild(input);
+</body>
+</html>
 
-      wiersz.appendChild(td1);
-      wiersz.appendChild(
 
 
 
