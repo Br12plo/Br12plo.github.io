@@ -8,32 +8,65 @@
 
   <h1>Pętle i instrukcje warunkowe (bez CSS)</h1>
 
-  <h2>Wynik działania programu:</h2>
-  <div id="wynik"></div>
+  <h2>Pętla for</h2>
+  <div id="for-loop"></div>
+
+  <h2>Pętla while</h2>
+  <div id="while-loop"></div>
+
+  <h2>Pętla do...while</h2>
+  <div id="do-while-loop"></div>
 
   <script>
-    let wynik = "";
-
-    // Pętla for od 1 do 10
+    // --- PĘTLA FOR ---
+    let wynikFor = "";
     for (let i = 1; i <= 10; i++) {
-
-      // Instrukcja warunkowa sprawdzająca właściwości liczby
       if (i === 5) {
-        wynik += "Liczba " + i + " — to moja ulubiona liczba! 🎯<br>";
+        wynikFor += "FOR → Liczba " + i + " to moja ulubiona liczba! 🎯<br>";
       } else if (i % 2 === 0) {
-        wynik += "Liczba " + i + " jest parzysta.<br>";
+        wynikFor += "FOR → Liczba " + i + " jest parzysta.<br>";
       } else {
-        wynik += "Liczba " + i + " jest nieparzysta.<br>";
+        wynikFor += "FOR → Liczba " + i + " jest nieparzysta.<br>";
       }
     }
+    document.getElementById("for-loop").innerHTML = wynikFor;
 
-    // Wyświetlamy wynik na stronie
-    document.getElementById("wynik").innerHTML = wynik;
+
+    // --- PĘTLA WHILE ---
+    let j = 1;
+    let wynikWhile = "";
+    while (j <= 10) {
+      if (j === 5) {
+        wynikWhile += "WHILE → Liczba " + j + " to moja ulubiona liczba! 🎯<br>";
+      } else if (j % 2 === 0) {
+        wynikWhile += "WHILE → Liczba " + j + " jest parzysta.<br>";
+      } else {
+        wynikWhile += "WHILE → Liczba " + j + " jest nieparzysta.<br>";
+      }
+      j++;
+    }
+    document.getElementById("while-loop").innerHTML = wynikWhile;
+
+
+    // --- PĘTLA DO...WHILE ---
+    let k = 1;
+    let wynikDoWhile = "";
+    do {
+      if (k === 5) {
+        wynikDoWhile += "DO...WHILE → Liczba " + k + " to moja ulubiona liczba! 🎯<br>";
+      } else if (k % 2 === 0) {
+        wynikDoWhile += "DO...WHILE → Liczba " + k + " jest parzysta.<br>";
+      } else {
+        wynikDoWhile += "DO...WHILE → Liczba " + k + " jest nieparzysta.<br>";
+      }
+      k++;
+    } while (k <= 10);
+    document.getElementById("do-while-loop").innerHTML = wynikDoWhile;
+
   </script>
 
 </body>
 </html>
-
 
 
 
