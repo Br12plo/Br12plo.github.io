@@ -2,93 +2,149 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Przykład zdarzeń w JavaScript</title>
+  <title>15 zdarzeń JavaScript</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: #f4f4f4;
       margin: 40px;
-      background-color: #f0f0f0;
     }
     h1 {
       color: #007acc;
     }
-    button {
-      padding: 10px 20px;
-      background-color: #007acc;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #005c99;
-    }
-    input {
-      padding: 8px;
-      margin-top: 10px;
+    button, input, textarea {
+      margin: 5px 0;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
     #box {
       width: 150px;
       height: 150px;
       background-color: orange;
-      margin-top: 20px;
-      line-height: 150px;
       text-align: center;
+      line-height: 150px;
       border-radius: 10px;
       transition: background-color 0.3s;
+      margin-bottom: 20px;
     }
   </style>
 </head>
-<body onload="powitanie()">
-  <h1>Zdarzenia w JavaScript</h1>
+<body onload="stronaZaladowana()" onresize="zmianaRozmiaru()">
 
-  <button onclick="klik()">Kliknij mnie</button>
+  <h1>Przykład 15 zdarzeń JavaScript</h1>
 
-  <div id="box" onmouseover="najechano()" onmouseout="opuszczono()">
-    Najedź myszką
-  </div>
+  <!-- 1 onClick -->
+  <button onclick="klik()">onClick</button><br>
 
-  <form onsubmit="return wyslij()">
-    <p>
-      <label>Podaj swoje imię:</label><br>
-      <input type="text" id="imie" onchange="zmianaTekstu()">
-    </p>
+  <!-- 2 onDblClick -->
+  <button ondblclick="podwojnyKlik()">onDblClick</button><br>
+
+  <!-- 3 + 4 onMouseOver / onMouseOut -->
+  <div id="box" onmouseover="najechano()" onmouseout="opuszczono()">Najedź myszką</div>
+
+  <!-- 5 onMouseDown / 6 onMouseUp -->
+  <button onmousedown="myszWDol()" onmouseup="myszWGore()">Kliknij i przytrzymaj</button><br>
+
+  <!-- 7 onFocus / 8 onBlur -->
+  <input type="text" id="fokus" placeholder="Kliknij tutaj" onfocus="maFokus()" onblur="stracilFokus()"><br>
+
+  <!-- 9 onChange -->
+  <select onchange="zmianaWyboru(this)">
+    <option value="">Wybierz kolor</option>
+    <option value="czerwony">Czerwony</option>
+    <option value="zielony">Zielony</option>
+    <option value="niebieski">Niebieski</option>
+  </select><br>
+
+  <!-- 10 onKeyDown / 11 onKeyUp -->
+  <input type="text" placeholder="Naciśnij klawisz" onkeydown="nacisnieto(event)" onkeyup="puszczono(event)"><br>
+
+  <!-- 12 onKeyPress -->
+  <textarea placeholder="Wpisz coś..." onkeypress="nacisnietoKlawisz()"></textarea><br>
+
+  <!-- 13 onSubmit -->
+  <form onsubmit="return wyslijFormularz()">
+    <input type="text" id="imie" placeholder="Twoje imię">
     <input type="submit" value="Wyślij">
   </form>
 
+  <!-- 14 onLoad już w body -->
+  <!-- 15 onResize już w body -->
+
+  <p id="wynik" style="font-weight: bold; color: darkblue; margin-top: 20px;"></p>
+
   <script>
-    function powitanie() {
+    function stronaZaladowana() {
       alert("Strona została załadowana! (onLoad)");
+    }
+
+    function zmianaRozmiaru() {
+      console.log("Zmieniono rozmiar okna (onResize)");
     }
 
     function klik() {
       alert("Kliknięto przycisk! (onClick)");
     }
 
+    function podwojnyKlik() {
+      alert("Podwójny klik! (onDblClick)");
+    }
+
     function najechano() {
-      document.getElementById("box").style.backgroundColor = "green";
-      document.getElementById("box").innerText = "onMouseOver!";
+      let b = document.getElementById("box");
+      b.style.backgroundColor = "green";
+      b.innerText = "onMouseOver!";
     }
 
     function opuszczono() {
-      document.getElementById("box").style.backgroundColor = "orange";
-      document.getElementById("box").innerText = "Najedź myszką";
+      let b = document.getElementById("box");
+      b.style.backgroundColor = "orange";
+      b.innerText = "Najedź myszką";
     }
 
-    function zmianaTekstu() {
-      let imie = document.getElementById("imie").value;
-      console.log("onChange: Wpisano imię:", imie);
+    function myszWDol() {
+      console.log("Przycisk myszy wciśnięty (onMouseDown)");
     }
 
-    function wyslij() {
+    function myszWGore() {
+      console.log("Przycisk myszy puszczony (onMouseUp)");
+    }
+
+    function maFokus() {
+      document.getElementById("fokus").style.backgroundColor = "#c7f7c7";
+    }
+
+    function stracilFokus() {
+      document.getElementById("fokus").style.backgroundColor = "white";
+    }
+
+    function zmianaWyboru(sel) {
+      document.getElementById("wynik").innerText = "Wybrano kolor: " + sel.value + " (onChange)";
+    }
+
+    function nacisnieto(event) {
+      console.log("Wciśnięto klawisz: " + event.key + " (onKeyDown)");
+    }
+
+    function puszczono(event) {
+      console.log("Puszczono klawisz: " + event.key + " (onKeyUp)");
+    }
+
+    function nacisnietoKlawisz() {
+      console.log("onKeyPress: wpisano znak");
+    }
+
+    function wyslijFormularz() {
       let imie = document.getElementById("imie").value;
       if (imie === "") {
-        alert("Proszę wpisać imię przed wysłaniem!");
-        return false; // zatrzymuje wysyłkę formularza
+        alert("Wpisz imię przed wysłaniem!");
+        return false;
       }
-      alert("Witaj, " + imie + "! (onSubmit)");
-      return false; // aby nie przeładowywać strony
+      alert("Formularz wysłany, witaj " + imie + "! (onSubmit)");
+      return false;
     }
   </script>
 </body>
 </html>
+
