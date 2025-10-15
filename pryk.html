@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Przykład zdarzeń w JavaScript</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      color: #007acc;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005c99;
+    }
+    input {
+      padding: 8px;
+      margin-top: 10px;
+    }
+    #box {
+      width: 150px;
+      height: 150px;
+      background-color: orange;
+      margin-top: 20px;
+      line-height: 150px;
+      text-align: center;
+      border-radius: 10px;
+      transition: background-color 0.3s;
+    }
+  </style>
+</head>
+<body onload="powitanie()">
+  <h1>Zdarzenia w JavaScript</h1>
+
+  <button onclick="klik()">Kliknij mnie</button>
+
+  <div id="box" onmouseover="najechano()" onmouseout="opuszczono()">
+    Najedź myszką
+  </div>
+
+  <form onsubmit="return wyslij()">
+    <p>
+      <label>Podaj swoje imię:</label><br>
+      <input type="text" id="imie" onchange="zmianaTekstu()">
+    </p>
+    <input type="submit" value="Wyślij">
+  </form>
+
+  <script>
+    function powitanie() {
+      alert("Strona została załadowana! (onLoad)");
+    }
+
+    function klik() {
+      alert("Kliknięto przycisk! (onClick)");
+    }
+
+    function najechano() {
+      document.getElementById("box").style.backgroundColor = "green";
+      document.getElementById("box").innerText = "onMouseOver!";
+    }
+
+    function opuszczono() {
+      document.getElementById("box").style.backgroundColor = "orange";
+      document.getElementById("box").innerText = "Najedź myszką";
+    }
+
+    function zmianaTekstu() {
+      let imie = document.getElementById("imie").value;
+      console.log("onChange: Wpisano imię:", imie);
+    }
+
+    function wyslij() {
+      let imie = document.getElementById("imie").value;
+      if (imie === "") {
+        alert("Proszę wpisać imię przed wysłaniem!");
+        return false; // zatrzymuje wysyłkę formularza
+      }
+      alert("Witaj, " + imie + "! (onSubmit)");
+      return false; // aby nie przeładowywać strony
+    }
+  </script>
+</body>
+</html>
