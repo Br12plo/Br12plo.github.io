@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Tworzenie i usuwanie elementów DOM</title>
+
+  <!-- Prosty, czytelny styl – bez bajerów -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 40px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    section {
+      background: #ffffff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+
+    .element {
+      background: #e3f2fd;
+      padding: 10px;
+      margin: 5px 0;
+      border-left: 4px solid #2196f3;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Manipulacja DOM – JavaScript</h1>
+
+<!-- ===================== -->
+<!-- SEKCJA 1 -->
+<!-- ===================== -->
+<section>
+  <h2>1. Tworzenie i dodawanie elementów</h2>
+  <button id="addElement">Dodaj element</button>
+  <button id="removeElement">Usuń ostatni element</button>
+
+  <!-- Kontener, do którego dodajemy elementy -->
+  <div id="container"></div>
+</section>
+
+<!-- ===================== -->
+<!-- SEKCJA 2 -->
+<!-- ===================== -->
+<section>
+  <h2>2. Klonowanie elementu</h2>
+  <button id="cloneElement">Klonuj pierwszy element</button>
+</section>
+
+<!-- ===================== -->
+<!-- SEKCJA 3 -->
+<!-- ===================== -->
+<section>
+  <h2>3. insertAdjacentHTML</h2>
+  <button id="insertHTML">Wstaw element HTML</button>
+</section>
+
+<!-- ===================== -->
+<!-- SEKCJA 4 -->
+<!-- ===================== -->
+<section>
+  <h2>4. Template</h2>
+  <button id="addFromTemplate">Dodaj element z template</button>
+</section>
+
+<!-- Template – niewidoczny w DOM -->
+<template id="myTemplate">
+  <div class="element">
+    <strong>Element z template</strong>
+    <p>Utworzony przy użyciu znacznika &lt;template&gt;</p>
+  </div>
+</template>
+
+<script>
+  // =====================
+  // POBIERANIE ELEMENTÓW
+  // =====================
+
+  const container = document.getElementById('container');
+  const addBtn = document.getElementById('addElement');
+  const removeBtn = document.getElementById('removeElement');
+  const cloneBtn = document.getElementById('cloneElement');
+  const insertHTMLBtn = document.getElementById('insertHTML');
+  const templateBtn = document.getElementById('addFromTemplate');
+
+  // =====================
+  // TWORZENIE ELEMENTU
+  // =====================
+  addBtn.addEventListener('click', function () {
+
+    // Tworzymy nowy element div
+    const div = document.createElement('div');
+    div.className = 'element';
+
+    // Tworzymy tekst jako węzeł tekstowy
+    const text = document.createTextNode('Nowy element utworzony przez createElement');
+
+    // Dodajemy tekst do diva
+    div.appendChild(text);
+
+    // Dodajemy diva do DOM
+    container.appendChild(div);
+  });
+
+  // =====================
+  // USUWANIE ELEMENTU
+  // =====================
+  removeBtn.addEventListener('click', function () {
+
+    // Pobieramy ostatni element w kontenerze
+    const lastElement = container.lastElementChild;
+
+    // Sprawdzamy, czy element istnieje
+    if (lastElement) {
+      lastElement.remove(); // usunięcie z DOM
+    }
+  });
+
+  // =====================
+  // KLONOWANIE ELEMENTU
+  // =====================
+  cloneBtn.addEventListener('click', function () {
+
+    // Pobieramy pierwszy element
+    const firstElement = container.firstElementChild;
+
+    if (!firstElement) return;
+
+    // cloneNode(true) – klon z zawartością
+    const clone = firstElement.cloneNode(true);
+    clone.textContent += ' (klon)';
+
+    container.appendChild(clone);
+  });
+
+  // =====================
+  // insertAdjacentHTML
+  // =====================
+  insertHTMLBtn.addEventListener('click', function () {
+
+    container.insertAdjacentHTML(
+      'beforeend',
+      '<div class="element">Dodane przez insertAdjacentHTML</div>'
+    );
+  });
+
+  // =====================
+  // TEMPLATE
+  // =====================
+  templateBtn.addEventListener('click', function () {
+
+    const template = document.getElementById('myTemplate');
+
+    // Klonujemy zawartość template
+    const clone = template.content.cloneNode(true);
+
+    // Dodajemy do DOM
+    container.appendChild(clone);
+  });
+</script>
+
+</body>
+</html>
