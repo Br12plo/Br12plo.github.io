@@ -2,177 +2,142 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Tworzenie i usuwanie elementów DOM</title>
-   <a href="index.html" class="btn">⬅ Strona główna</a>
+  <title>Tworzenie elementów DOM – wariacje</title>
 
-  <!-- Prosty, czytelny styl – bez bajerów -->
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      background: #f4f4f4;
       margin: 40px;
     }
 
-    h1 {
-      text-align: center;
-    }
-
     section {
-      background: #ffffff;
+      background: #fff;
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 6px;
     }
 
-    button {
-      padding: 8px 12px;
-      margin: 5px 0;
-      cursor: pointer;
+    label {
+      display: block;
+      margin-top: 10px;
     }
 
-    .element {
-      background: #e3f2fd;
+    input, select, button {
+      margin-top: 5px;
+      padding: 6px;
+    }
+
+    .box {
+      margin: 6px 0;
       padding: 10px;
-      margin: 5px 0;
-      border-left: 4px solid #2196f3;
+      background: #e3f2fd;
     }
   </style>
 </head>
 <body>
 
-<h1>Manipulacja DOM – JavaScript</h1>
+<h1>Dynamiczne tworzenie elementów DOM</h1>
 
 <!-- ===================== -->
-<!-- SEKCJA 1 -->
+<!-- FORMULARZ -->
 <!-- ===================== -->
 <section>
-  <h2>1. Tworzenie i dodawanie elementów</h2>
-  <button id="addElement">Dodaj element</button>
-  <button id="removeElement">Usuń ostatni element</button>
+  <h2>Tworzenie własnego elementu</h2>
 
-  <!-- Kontener, do którego dodajemy elementy -->
+  <label>
+    Tekst elementu:
+    <input type="text" id="textInput" placeholder="Wpisz własny tekst">
+  </label>
+
+  <label>
+    Typ elementu:
+    <select id="elementType">
+      <option value="div">div</option>
+      <option value="p">p</option>
+      <option value="h3">h3</option>
+      <option value="span">span</option>
+    </select>
+  </label>
+
+  <label>
+    Wariant wyglądu:
+    <select id="variant">
+      <option value="blue">Niebieski</option>
+      <option value="green">Zielony</option>
+      <option value="red">Czerwony</option>
+    </select>
+  </label>
+
+  <button id="add">Dodaj element</button>
+  <button id="remove">Usuń ostatni</button>
+</section>
+
+<!-- ===================== -->
+<!-- KONTENER -->
+<!-- ===================== -->
+<section>
+  <h2>Wynik</h2>
   <div id="container"></div>
 </section>
 
-<!-- ===================== -->
-<!-- SEKCJA 2 -->
-<!-- ===================== -->
-<section>
-  <h2>2. Klonowanie elementu</h2>
-  <button id="cloneElement">Klonuj pierwszy element</button>
-</section>
-
-<!-- ===================== -->
-<!-- SEKCJA 3 -->
-<!-- ===================== -->
-<section>
-  <h2>3. insertAdjacentHTML</h2>
-  <button id="insertHTML">Wstaw element HTML</button>
-</section>
-
-<!-- ===================== -->
-<!-- SEKCJA 4 -->
-<!-- ===================== -->
-<section>
-  <h2>4. Template</h2>
-  <button id="addFromTemplate">Dodaj element z template</button>
-</section>
-
-<!-- Template – niewidoczny w DOM -->
-<template id="myTemplate">
-  <div class="element">
-    <strong>Element z template</strong>
-    <p>Utworzony przy użyciu znacznika &lt;template&gt;</p>
-  </div>
-</template>
-
 <script>
-  // =====================
-  // POBIERANIE ELEMENTÓW
-  // =====================
-
+  // Pobranie elementów formularza
+  const textInput = document.getElementById('textInput');
+  const elementType = document.getElementById('elementType');
+  const variant = document.getElementById('variant');
   const container = document.getElementById('container');
-  const addBtn = document.getElementById('addElement');
-  const removeBtn = document.getElementById('removeElement');
-  const cloneBtn = document.getElementById('cloneElement');
-  const insertHTMLBtn = document.getElementById('insertHTML');
-  const templateBtn = document.getElementById('addFromTemplate');
+
+  const addBtn = document.getElementById('add');
+  const removeBtn = document.getElementById('remove');
 
   // =====================
-  // TWORZENIE ELEMENTU
+  // DODAWANIE ELEMENTU
   // =====================
   addBtn.addEventListener('click', function () {
 
-    // Tworzymy nowy element div
-    const div = document.createElement('div');
-    div.className = 'element';
+    // Tworzenie elementu wybranego przez użytkownika
+    const element = document.createElement(elementType.value);
 
-    // Tworzymy tekst jako węzeł tekstowy
-    const text = document.createTextNode('Nowy element utworzony przez createElement');
+    // Tworzenie bezpiecznego tekstu
+    const text = document.createTextNode(
+      textInput.value || 'Domyślny tekst'
+    );
 
-    // Dodajemy tekst do diva
-    div.appendChild(text);
+    element.appendChild(text);
+    element.classList.add('box');
 
-    // Dodajemy diva do DOM
-    container.appendChild(div);
+    // WARIACJE WYGLĄDU
+    if (variant.value === 'blue') {
+      element.style.borderLeft = '5px solid #2196f3';
+    }
+
+    if (variant.value === 'green') {
+      element.style.borderLeft = '5px solid #4caf50';
+      element.style.background = '#e8f5e9';
+    }
+
+    if (variant.value === 'red') {
+      element.style.borderLeft = '5px solid #f44336';
+      element.style.background = '#fdecea';
+    }
+
+    // Dodanie elementu do DOM
+    container.appendChild(element);
+
+    // Czyszczenie inputa
+    textInput.value = '';
   });
 
   // =====================
   // USUWANIE ELEMENTU
   // =====================
   removeBtn.addEventListener('click', function () {
-
-    // Pobieramy ostatni element w kontenerze
-    const lastElement = container.lastElementChild;
-
-    // Sprawdzamy, czy element istnieje
-    if (lastElement) {
-      lastElement.remove(); // usunięcie z DOM
-    }
-  });
-
-  // =====================
-  // KLONOWANIE ELEMENTU
-  // =====================
-  cloneBtn.addEventListener('click', function () {
-
-    // Pobieramy pierwszy element
-    const firstElement = container.firstElementChild;
-
-    if (!firstElement) return;
-
-    // cloneNode(true) – klon z zawartością
-    const clone = firstElement.cloneNode(true);
-    clone.textContent += ' (klon)';
-
-    container.appendChild(clone);
-  });
-
-  // =====================
-  // insertAdjacentHTML
-  // =====================
-  insertHTMLBtn.addEventListener('click', function () {
-
-    container.insertAdjacentHTML(
-      'beforeend',
-      '<div class="element">Dodane przez insertAdjacentHTML</div>'
-    );
-  });
-
-  // =====================
-  // TEMPLATE
-  // =====================
-  templateBtn.addEventListener('click', function () {
-
-    const template = document.getElementById('myTemplate');
-
-    // Klonujemy zawartość template
-    const clone = template.content.cloneNode(true);
-
-    // Dodajemy do DOM
-    container.appendChild(clone);
+    const last = container.lastElementChild;
+    if (last) last.remove();
   });
 </script>
 
 </body>
 </html>
+
