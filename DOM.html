@@ -3,68 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dynamiczny DOM – ULTRA</title>
+<title>Dynamiczne elementy DOM – Premium</title>
 
 <style>
+/* =======================
+   DESIGN SYSTEM
+======================= */
 :root {
-  --blue: #2196f3;
-  --green: #4caf50;
-  --red: #f44336;
-  --bg: #f4f6f8;
+  --clr-bg: #f6f8fb;
+  --clr-surface: #ffffff;
+  --clr-text: #1f2937;
+  --clr-muted: #6b7280;
+
+  --clr-blue: #2563eb;
+  --clr-green: #16a34a;
+  --clr-red: #dc2626;
+
+  --radius: 12px;
+  --shadow: 0 10px 30px rgba(0,0,0,.08);
 }
 
-* {
+/* =======================
+   RESET + BASE
+======================= */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  padding: 30px;
-  font-family: system-ui, Arial, sans-serif;
-  background: var(--bg);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.6;
 }
 
-h1 {
+/* =======================
+   LAYOUT
+======================= */
+header {
+  padding: 32px 20px;
   text-align: center;
-  margin-bottom: 30px;
 }
 
 main {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
+  padding: 0 20px 40px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
 }
 
-section {
-  background: #fff;
+/* =======================
+   PANELS
+======================= */
+.panel {
+  background: var(--clr-surface);
+  border-radius: var(--radius);
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.08);
+  box-shadow: var(--shadow);
 }
 
+.panel h2 {
+  margin-top: 0;
+  font-size: 18px;
+}
+
+/* =======================
+   FORM
+======================= */
 label {
   display: block;
-  margin-top: 14px;
+  margin-top: 16px;
   font-weight: 600;
 }
 
-input, select, button {
+input,
+select,
+button {
   width: 100%;
   margin-top: 6px;
-  padding: 10px;
+  padding: 10px 12px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #d1d5db;
   font-size: 14px;
 }
 
-input:focus, select:focus {
-  outline: 2px solid #2196f3;
+input:focus,
+select:focus {
+  outline: 3px solid rgba(37,99,235,.35);
   border-color: transparent;
 }
 
-.buttons {
+.error {
+  font-size: 13px;
+  color: var(--clr-red);
+  margin-top: 4px;
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -72,80 +115,102 @@ input:focus, select:focus {
 }
 
 button {
-  cursor: pointer;
   font-weight: 700;
-  background: #f1f3f5;
-}
-
-button:hover {
-  background: #e2e6ea;
+  cursor: pointer;
+  background: #f1f5f9;
 }
 
 button.primary {
-  background: var(--blue);
+  background: var(--clr-blue);
   color: white;
 }
 
-button.primary:hover {
-  background: #1976d2;
+button:hover {
+  filter: brightness(.95);
 }
 
-.error {
-  color: var(--red);
-  font-size: 13px;
-  margin-top: 6px;
-}
-
+/* =======================
+   PREVIEW
+======================= */
 .preview {
-  margin-top: 15px;
-  padding: 12px;
-  border: 2px dashed #bbb;
-  border-radius: 8px;
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 2px dashed #cbd5f5;
   font-size: 14px;
 }
 
+/* =======================
+   OUTPUT
+======================= */
 #container {
-  margin-top: 15px;
+  margin-top: 12px;
 }
 
 .box {
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  animation: fadeIn .25s ease;
   cursor: pointer;
-  animation: appear .25s ease;
 }
 
-.blue { background: #e3f2fd; border-left: 6px solid var(--blue); }
-.green { background: #e8f5e9; border-left: 6px solid var(--green); }
-.red { background: #fdecea; border-left: 6px solid var(--red); }
+.blue {
+  background: #eff6ff;
+  border-left: 6px solid var(--clr-blue);
+}
 
-@keyframes appear {
+.green {
+  background: #ecfdf5;
+  border-left: 6px solid var(--clr-green);
+}
+
+.red {
+  background: #fef2f2;
+  border-left: 6px solid var(--clr-red);
+}
+
+@keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.footer {
-  grid-column: 1 / -1;
+/* =======================
+   FOOTER INFO
+======================= */
+.meta {
+  margin-top: 12px;
   text-align: right;
   font-size: 14px;
-  color: #555;
+  color: var(--clr-muted);
+}
+
+/* =======================
+   RESPONSIVE
+======================= */
+@media (max-width: 900px) {
+  main {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<h1>Dynamiczne elementy DOM – ULTRA</h1>
+<header>
+  <h1>Dynamiczne tworzenie elementów DOM</h1>
+  <p>Wersja zadbana • semantyczna • edukacyjna</p>
+</header>
 
 <main>
 
-<section aria-labelledby="panel">
-  <h2 id="panel">Panel sterowania</h2>
+<aside class="panel" aria-labelledby="controls">
+  <h2 id="controls">Panel sterowania</h2>
 
   <label>
-    Tekst elementu
-    <input id="textInput" placeholder="Np. Uczę się DOM 😎">
+    Treść elementu
+    <input id="textInput" maxlength="40" placeholder="Np. Uczę się JavaScript">
     <div class="error" id="textError"></div>
   </label>
 
@@ -172,33 +237,32 @@ button.primary:hover {
     Podgląd elementu
   </div>
 
-  <div class="buttons">
+  <div class="actions">
     <button class="primary" id="add">Dodaj</button>
     <button id="remove">Usuń ostatni</button>
     <button id="clear">Wyczyść</button>
   </div>
-</section>
+</aside>
 
-<section>
-  <h2>Wynik</h2>
+<section class="panel" aria-labelledby="output">
+  <h2 id="output">Wynik</h2>
   <div id="container"></div>
+  <div class="meta" id="counter">Elementów: 0</div>
 </section>
-
-<div class="footer" id="counter">Elementów: 0</div>
 
 </main>
 
 <script>
-/* =====================
-   STATE
-===================== */
+/* =======================
+   APPLICATION STATE
+======================= */
 const state = {
   elements: JSON.parse(localStorage.getItem('elements')) || []
 };
 
-/* =====================
-   ELEMENTY
-===================== */
+/* =======================
+   ELEMENT REFERENCES
+======================= */
 const textInput = document.getElementById('textInput');
 const elementType = document.getElementById('elementType');
 const variant = document.getElementById('variant');
@@ -207,37 +271,17 @@ const counter = document.getElementById('counter');
 const preview = document.getElementById('preview');
 const textError = document.getElementById('textError');
 
-/* =====================
-   FUNKCJE
-===================== */
-function save() {
+/* =======================
+   HELPERS
+======================= */
+const save = () =>
   localStorage.setItem('elements', JSON.stringify(state.elements));
-}
 
-function updateCounter() {
+const updateCounter = () =>
   counter.textContent = `Elementów: ${state.elements.length}`;
-}
 
-function createBox({ text, type, color }) {
-  const el = document.createElement(type);
-  el.textContent = text;
-  el.className = `box ${color}`;
-  return el;
-}
-
-function render() {
-  container.innerHTML = '';
-  state.elements.forEach((item, index) => {
-    const el = createBox(item);
-    el.dataset.index = index;
-    container.appendChild(el);
-  });
-  updateCounter();
-  save();
-}
-
-function validate() {
-  if (textInput.value.length > 40) {
+function validateText(value) {
+  if (value.length > 40) {
     textError.textContent = 'Maksymalnie 40 znaków';
     return false;
   }
@@ -245,20 +289,47 @@ function validate() {
   return true;
 }
 
+function createElementBox({ text, type, color }) {
+  const el = document.createElement(type);
+  el.textContent = text;
+  el.className = `box ${color}`;
+  return el;
+}
+
+/* =======================
+   RENDER
+======================= */
+function render() {
+  container.innerHTML = '';
+
+  state.elements.forEach((item, index) => {
+    const el = createElementBox(item);
+    el.dataset.index = index;
+    container.appendChild(el);
+  });
+
+  updateCounter();
+  save();
+}
+
+/* =======================
+   PREVIEW
+======================= */
 function updatePreview() {
-  const text = textInput.value || 'Podgląd';
+  const text = textInput.value.trim() || 'Podgląd';
   preview.className = `preview box ${variant.value}`;
   preview.textContent = `<${elementType.value}> ${text}`;
 }
 
-/* =====================
-   EVENTY
-===================== */
+/* =======================
+   EVENTS
+======================= */
 document.getElementById('add').addEventListener('click', () => {
-  if (!validate()) return;
+  const text = textInput.value.trim() || 'Domyślny tekst';
+  if (!validateText(text)) return;
 
   state.elements.push({
-    text: textInput.value || 'Domyślny tekst',
+    text,
     type: elementType.value,
     color: variant.value
   });
@@ -285,13 +356,12 @@ container.addEventListener('click', e => {
   render();
 });
 
-[textInput, elementType, variant].forEach(el =>
-  el.addEventListener('input', updatePreview)
-);
+[textInput, elementType, variant]
+  .forEach(el => el.addEventListener('input', updatePreview));
 
-/* =====================
+/* =======================
    INIT
-===================== */
+======================= */
 render();
 updatePreview();
 </script>
