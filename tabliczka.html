@@ -22,20 +22,36 @@
             margin-left: 5px;
         }
 
-        table {
-            margin: 20px auto;
-            border-collapse: collapse;
+        #tableContainer {
+            margin-top: 20px;
+            overflow-x: auto; /* przewijanie przy dużej tabeli */
         }
 
-        td, th {
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            table-layout: auto;
+        }
+
+        td {
             border: 1px solid black;
-            padding: 8px;
-            width: 50px;
             text-align: center;
         }
 
-        th {
-            background-color: #f0f0f0;
+        /* Różne rozmiary zależne od zakresu */
+        .large td {
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        .medium td {
+            padding: 6px;
+            font-size: 14px;
+        }
+
+        .small td {
+            padding: 3px;
+            font-size: 12px;
         }
 
         .diagonal {
@@ -56,11 +72,20 @@
 
     <script>
         function generateTable() {
-            const range = document.getElementById("range").value;
+            const range = parseInt(document.getElementById("range").value);
             const container = document.getElementById("tableContainer");
             container.innerHTML = "";
 
             const table = document.createElement("table");
+
+            // Automatyczne dopasowanie wielkości komórek
+            if (range <= 10) {
+                table.classList.add("large");
+            } else if (range <= 20) {
+                table.classList.add("medium");
+            } else {
+                table.classList.add("small");
+            }
 
             for (let i = 1; i <= range; i++) {
                 const row = document.createElement("tr");
@@ -69,7 +94,7 @@
                     const cell = document.createElement("td");
                     cell.textContent = i * j;
 
-                    if (i == j) {
+                    if (i === j) {
                         cell.classList.add("diagonal");
                     }
 
@@ -82,7 +107,7 @@
             container.appendChild(table);
         }
 
-        // Generuj tabelę od razu po załadowaniu strony
+        // Generuj tabelę po załadowaniu strony
         generateTable();
     </script>
 
