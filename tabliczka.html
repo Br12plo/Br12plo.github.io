@@ -21,8 +21,9 @@ function generateTable(){
 let range = document.getElementById("range").value;
 let container = document.getElementById("table");
 
-container.innerHTML="";
+container.innerHTML = "";
 
+// TABLICA
 let tabela = new Array(range);
 
 // wypełnianie tablicy
@@ -37,25 +38,32 @@ for(let i=0;i<range;i++){
     }
 }
 
-// tworzenie tabeli
-let html="<table border='1'>";
+// tworzenie tabeli w JS
+let table = document.createElement("table");
+table.border = "1";
 
 for(let i=0;i<range;i++){
 
-    html+="<tr>";
+    let row = document.createElement("tr");
 
     for(let j=0;j<range;j++){
 
-        html+="<td>"+tabela[i][j]+"</td>";
+        let cell = document.createElement("td");
+
+        cell.textContent = tabela[i][j];
+
+        cell.style.padding = "5px";
+        cell.style.textAlign = "center";
+
+        row.appendChild(cell);
 
     }
 
-    html+="</tr>";
+    table.appendChild(row);
+
 }
 
-html+="</table>";
-
-container.innerHTML=html;
+container.appendChild(table);
 
 }
 
