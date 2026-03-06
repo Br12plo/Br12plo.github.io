@@ -3,72 +3,117 @@
 <head>
 <meta charset="UTF-8">
 <title>Tabliczka mnożenia JS</title>
-</head>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 30px;
+    background-color: #f4f4f9;
+}
 
+input {
+    padding: 5px;
+    width: 60px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+button {
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-left: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#tableContainer {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+td {
+    border: 1px solid #333;
+    text-align: center;
+    padding: 8px;
+    min-width: 30px;
+    transition: all 0.2s;
+}
+
+td:hover {
+    background-color: #ffeaa7;
+}
+
+.diagonal {
+    background-color: #81ecec;
+    font-weight: bold;
+}
+</style>
+</head>
 <body>
 
-<h2>Tabliczka mnożenia (JavaScript)</h2>
+<h1>Tabliczka mnożenia</h1>
 
-<input type="number" id="range" value="10">
+<label>Podaj zakres:</label>
+<input type="number" id="range" value="10" min="1">
 <button onclick="generateTable()">Generuj</button>
 
-<div id="table"></div>
+<div id="tableContainer"></div>
 
 <script>
+function generateTable() {
 
-function generateTable(){
+    const range = parseInt(document.getElementById("range").value);
+    const container = document.getElementById("tableContainer");
 
-let range = document.getElementById("range").value;
-let container = document.getElementById("table");
+    container.innerHTML = "";
 
-container.innerHTML = "";
-
-// TABLICA
-let tabela = new Array(range);
-
-// wypełnianie tablicy
-for(let i=0;i<range;i++){
-
-    tabela[i] = new Array(range);
-
-    for(let j=0;j<range;j++){
-
-        tabela[i][j] = (i+1)*(j+1);
-
-    }
-}
-
-// tworzenie tabeli w JS
-let table = document.createElement("table");
-table.border = "1";
-
-for(let i=0;i<range;i++){
-
-    let row = document.createElement("tr");
-
-    for(let j=0;j<range;j++){
-
-        let cell = document.createElement("td");
-
-        cell.textContent = tabela[i][j];
-
-        cell.style.padding = "5px";
-        cell.style.textAlign = "center";
-
-        row.appendChild(cell);
-
+    // TWORZENIE TABLICY 2D
+    let tabela = new Array(range);
+    for(let i=0;i<range;i++){
+        tabela[i] = new Array(range);
+        for(let j=0;j<range;j++){
+            tabela[i][j] = (i+1)*(j+1);
+        }
     }
 
-    table.appendChild(row);
+    // TWORZENIE TABELI W JS
+    let table = document.createElement("table");
 
+    for(let i=0;i<range;i++){
+        let row = document.createElement("tr");
+
+        for(let j=0;j<range;j++){
+            let cell = document.createElement("td");
+            cell.textContent = tabela[i][j];
+
+            // przekątna
+            if(i===j){
+                cell.classList.add("diagonal");
+            }
+
+            row.appendChild(cell);
+        }
+
+        table.appendChild(row);
+    }
+
+    container.appendChild(table);
 }
 
-container.appendChild(table);
-
-}
-
+// generowanie tabeli przy starcie
 generateTable();
-
 </script>
 
 </body>
