@@ -8,7 +8,7 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     margin-top: 30px;
-    background-color: #f4f4f9;
+    background-color: #f0f4f8;
 }
 
 input {
@@ -16,20 +16,21 @@ input {
     width: 60px;
     text-align: center;
     margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button {
     padding: 6px 12px;
     cursor: pointer;
-    margin-left: 5px;
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
 #tableContainer {
@@ -40,14 +41,14 @@ button:hover {
 table {
     margin: 0 auto;
     border-collapse: collapse;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 td {
-    border: 1px solid #333;
+    border: 1px solid #555;
     text-align: center;
     padding: 8px;
-    min-width: 30px;
+    min-width: 35px;
     transition: all 0.2s;
 }
 
@@ -56,8 +57,9 @@ td:hover {
 }
 
 .diagonal {
-    background-color: #81ecec;
+    background-color: #74b9ff;
     font-weight: bold;
+    color: white;
 }
 </style>
 </head>
@@ -79,7 +81,7 @@ function generateTable() {
 
     container.innerHTML = "";
 
-    // TWORZENIE TABLICY 2D
+    // TABLICA 2D
     let tabela = new Array(range);
     for(let i=0;i<range;i++){
         tabela[i] = new Array(range);
