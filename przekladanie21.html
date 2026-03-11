@@ -2,113 +2,51 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>przekladanie w js</title>
+<title>Przekładanie w JS</title>
 
 <style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#0a0a0a,#1b1b1b);
+font-family:Arial;
+background:#111;
 color:#dfff3f;
 padding:30px;
 }
 
-/* NAGŁÓWKI */
-
-h1,h2{
-color:#f2ff58;
-margin-bottom:15px;
-}
-
-/* SEKCJE */
-
-section{
-margin-bottom:40px;
-}
-
-.controls{
-margin-bottom:15px;
-}
+h1,h2{margin-bottom:15px}
 
 button{
 background:#dfff3f;
 border:none;
-padding:10px 18px;
-border-radius:10px;
-font-weight:bold;
+padding:8px 14px;
+border-radius:8px;
 cursor:pointer;
 margin-right:10px;
 }
 
-button:hover{
-background:#f2ff58;
-}
-
-/* LISTA */
-
-ul{
-list-style:none;
-}
+ul{list-style:none}
 
 li{
 background:#000;
 padding:16px;
-margin-bottom:14px;
-border-radius:12px;
-border-left:6px solid #dfff3f;
+margin-bottom:10px;
+border-left:5px solid #dfff3f;
+border-radius:10px;
 display:flex;
 justify-content:space-between;
 align-items:center;
 }
 
-/* ZŁOM */
-
-li.scrap{
-cursor:grab;
-}
-
-li.dragging{
-opacity:0.4;
-}
-
-/* TEKST */
-
-.item-name{
-font-size:1.1rem;
-}
-
-.item-id{
-font-size:0.9rem;
-opacity:0.7;
-margin-left:10px;
-}
-
-/* PRZYCISKI */
-
-li button{
-background:#dfff3f;
-margin-left:5px;
-}
-
-/* GALERIA */
-
-#gallery{
-display:flex;
-gap:10px;
-}
+li.scrap{cursor:grab}
+li.dragging{opacity:0.4}
 
 #gallery img{
 width:200px;
 cursor:pointer;
 border-radius:10px;
+margin-right:10px;
 }
-
-/* LIGHTBOX */
 
 #lightbox{
 position:fixed;
@@ -122,102 +60,38 @@ justify-content:center;
 align-items:center;
 }
 
-#lightbox.active{
-display:flex;
-}
+#lightbox.active{display:flex}
 
-#lightbox img{
-max-width:80%;
-border-radius:10px;
-}
+#lightbox img{max-width:80%}
 
 #close{
 position:absolute;
 top:20px;
-right:40px;
+right:30px;
+color:white;
 font-size:30px;
 cursor:pointer;
-color:white;
-}
-
-/* SLIDER */
-
-#slider{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-#slider img{
-width:500px;
-border-radius:10px;
-}
-
-/* RESPONSYWNOŚĆ */
-
-@media(max-width:700px){
-li{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
 }
 </style>
 </head>
 
 <body>
 
-<h1>☣️ LETHAL COMPANY</h1>
+<h1>Drag & Drop demo</h1>
 
-<section>
+<h2>Złom</h2>
 
-<h2>Złom statku 🔩</h2>
-
-<div class="controls">
-<button id="addScrapTop">Dodaj złom na górę ⬆️</button>
-<button id="addScrapBottom">Dodaj złom na dół ⬇️</button>
-<button id="clearScrap">Wyrzuć wszystko 💥</button>
-</div>
+<button id="addScrap">Dodaj złom</button>
 
 <ul id="scrapList"></ul>
 
-</section>
-
-<section>
-
-<h2>Załoga 👨‍🚀</h2>
-
-<div class="controls">
-<button id="addCrew">Dodaj gracza</button>
-</div>
-
-<ul id="crewList"></ul>
-
-</section>
-
-<section>
-
-<h2>🖼️ Galeria (Lightbox)</h2>
+<h2>Galeria</h2>
 
 <div id="gallery">
 <img src="https://picsum.photos/600/400?1">
 <img src="https://picsum.photos/600/400?2">
 <img src="https://picsum.photos/600/400?3">
 </div>
-
-</section>
-
-<section>
-
-<h2>🎞️ Slider</h2>
-
-<div id="slider">
-<button id="prev">⬅</button>
-<img id="slide">
-<button id="next">➡</button>
-</div>
-
-</section>
 
 <div id="lightbox">
 <span id="close">✖</span>
@@ -229,220 +103,117 @@ gap:10px;
 /* DANE */
 
 const scrapItems=[
-"Zardzewiała rura 🔧",
-"Złom elektroniczny 💾",
-"Stary monitor 📺",
-"Fragment pancerza 🛡️",
-"Moduł energii ⚡"
-];
+"Rura 🔧",
+"Elektronika 💾",
+"Monitor 📺",
+"Pancerz 🛡️",
+"Moduł ⚡"
+]
 
-const crewNames=["Ola","Adam","Kasia","Marek","Piotr"];
+const scrapList=document.getElementById("scrapList")
 
-/* ELEMENTY */
-
-const scrapList=document.getElementById("scrapList");
-const crewList=document.getElementById("crewList");
-
-/* DRAG & DROP (CAŁY W JS) */
-
-let draggedItem=null;
-
-scrapList.addEventListener("dragstart",(e)=>{
-
-if(e.target.classList.contains("scrap")){
-draggedItem=e.target;
-e.target.classList.add("dragging");
-}
-
-});
-
-scrapList.addEventListener("dragend",(e)=>{
-
-if(draggedItem){
-draggedItem.classList.remove("dragging");
-draggedItem=null;
-}
-
-});
-
-scrapList.addEventListener("dragover",(e)=>{
-
-e.preventDefault();
-
-const afterElement=getDragAfterElement(scrapList,e.clientY);
-
-if(afterElement==null){
-scrapList.appendChild(draggedItem);
-}else{
-scrapList.insertBefore(draggedItem,afterElement);
-}
-
-});
-
-function getDragAfterElement(container,y){
-
-const elements=[...container.querySelectorAll(".scrap:not(.dragging)")];
-
-return elements.reduce((closest,child)=>{
-
-const box=child.getBoundingClientRect();
-const offset=y-box.top-box.height/2;
-
-if(offset<0 && offset>closest.offset){
-return{offset:offset,element:child};
-}else{
-return closest;
-}
-
-},{offset:Number.NEGATIVE_INFINITY}).element;
-
-}
-
-/* TWORZENIE ZŁOMU */
+/* TWORZENIE ELEMENTU */
 
 function createScrap(){
 
-const li=document.createElement("li");
-li.classList.add("scrap");
-li.draggable=true;
+const li=document.createElement("li")
+li.classList.add("scrap")
+li.draggable=true
 
-const nameSpan=document.createElement("span");
-nameSpan.className="item-name";
+li.textContent=
+scrapItems[Math.floor(Math.random()*scrapItems.length)]
 
-nameSpan.textContent=
-scrapItems[Math.floor(Math.random()*scrapItems.length)];
-
-const editBtn=document.createElement("button");
-editBtn.textContent="Zmień ✏️";
-
-editBtn.addEventListener("click",()=>{
-
-const newName=prompt("Nowa nazwa złomu:",nameSpan.textContent);
-
-if(newName){
-nameSpan.textContent=newName;
+return li
 }
 
-});
+/* DODAWANIE */
 
-const deleteBtn=document.createElement("button");
-deleteBtn.textContent="Usuń ❌";
+document.getElementById("addScrap").addEventListener("click",()=>{
+scrapList.appendChild(createScrap())
+})
 
-deleteBtn.addEventListener("click",()=>{
-li.remove();
-});
+/* STARTOWE ELEMENTY */
 
-li.appendChild(nameSpan);
-li.appendChild(editBtn);
-li.appendChild(deleteBtn);
+for(let i=0;i<4;i++){
+scrapList.appendChild(createScrap())
+}
 
-return li;
+/* DRAG */
+
+let dragged=null
+
+scrapList.addEventListener("dragstart",e=>{
+
+if(e.target.classList.contains("scrap")){
+
+dragged=e.target
+e.target.classList.add("dragging")
+
+/* wymagane w wielu przeglądarkach */
+e.dataTransfer.setData("text","")
 
 }
 
-/* DODAWANIE ZŁOMU */
+})
 
-document.getElementById("addScrapTop").addEventListener("click",()=>{
+scrapList.addEventListener("dragend",e=>{
+e.target.classList.remove("dragging")
+})
 
-const li=createScrap();
-scrapList.prepend(li);
+scrapList.addEventListener("dragover",e=>{
 
-});
+e.preventDefault()
 
-document.getElementById("addScrapBottom").addEventListener("click",()=>{
+const after=getAfterElement(scrapList,e.clientY)
 
-const li=createScrap();
-scrapList.appendChild(li);
+if(after==null){
+scrapList.appendChild(dragged)
+}else{
+scrapList.insertBefore(dragged,after)
+}
 
-});
+})
 
-/* USUŃ WSZYSTKO */
+function getAfterElement(container,y){
 
-document.getElementById("clearScrap").addEventListener("click",()=>{
-scrapList.innerHTML="";
-});
+const elements=[...container.querySelectorAll(".scrap:not(.dragging)")]
 
-/* ZAŁOGA */
+let closest=null
+let closestOffset=Number.NEGATIVE_INFINITY
 
-document.getElementById("addCrew").addEventListener("click",()=>{
+elements.forEach(el=>{
 
-const li=document.createElement("li");
+const box=el.getBoundingClientRect()
+const offset=y-box.top-box.height/2
 
-const name=crewNames[Math.floor(Math.random()*crewNames.length)];
-const id=Math.floor(Math.random()*100);
+if(offset<0 && offset>closestOffset){
+closestOffset=offset
+closest=el
+}
 
-li.innerHTML=`
-<span class="item-name">${name} 👨‍🚀</span>
-<span class="item-id">ID: ${id}</span>
-`;
+})
 
-const btn=document.createElement("button");
-btn.textContent="Zabity ☠️";
+return closest
 
-btn.addEventListener("click",()=>{
-li.remove();
-});
-
-li.appendChild(btn);
-crewList.appendChild(li);
-
-});
+}
 
 /* LIGHTBOX */
 
-const lightbox=document.getElementById("lightbox");
-const lightboxImg=document.getElementById("lightboxImg");
-const closeBtn=document.getElementById("close");
+const lightbox=document.getElementById("lightbox")
+const lightboxImg=document.getElementById("lightboxImg")
 
 document.querySelectorAll("#gallery img").forEach(img=>{
 
 img.addEventListener("click",()=>{
+lightbox.classList.add("active")
+lightboxImg.src=img.src
+})
 
-lightboxImg.src=img.src;
-lightbox.classList.add("active");
+})
 
-});
-
-});
-
-closeBtn.addEventListener("click",()=>{
-lightbox.classList.remove("active");
-});
-
-document.addEventListener("keydown",e=>{
-
-if(e.key==="Escape"){
-lightbox.classList.remove("active");
+document.getElementById("close").onclick=()=>{
+lightbox.classList.remove("active")
 }
-
-});
-
-/* SLIDER */
-
-const slides=[
-"https://picsum.photos/700/400?10",
-"https://picsum.photos/700/400?11",
-"https://picsum.photos/700/400?12"
-];
-
-let index=0;
-
-const slideImg=document.getElementById("slide");
-slideImg.src=slides[index];
-
-document.getElementById("next").addEventListener("click",()=>{
-
-index=(index+1)%slides.length;
-slideImg.src=slides[index];
-
-});
-
-document.getElementById("prev").addEventListener("click",()=>{
-
-index=(index-1+slides.length)%slides.length;
-slideImg.src=slides[index];
-
-});
 
 </script>
 
