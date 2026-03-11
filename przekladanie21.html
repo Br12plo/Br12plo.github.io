@@ -2,44 +2,42 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Przekładanie elementów</title>
+<title>Przekładanie elementów z tablicą</title>
 
 <style>
-
-body{
-font-family:Arial;
-background:#111;
-color:white;
-padding:40px;
+body {
+    font-family: Arial;
+    background: #111;
+    color: white;
+    padding: 40px;
 }
 
-button{
-padding:10px 15px;
-margin-bottom:20px;
-cursor:pointer;
+button {
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    cursor: pointer;
 }
 
-ul{
-list-style:none;
-padding:0;
-max-width:400px;
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 400px;
 }
 
-li{
-background:#333;
-padding:15px;
-margin-bottom:10px;
-border-radius:8px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-cursor:grab;
+li {
+    background: #333;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
 }
 
-li.dragging{
-opacity:0.4;
+li.dragging {
+    opacity: 0.4;
 }
-
 </style>
 </head>
 
@@ -52,81 +50,81 @@ opacity:0.4;
 <ul id="list"></ul>
 
 <script>
+const list = document.getElementById("list");
+const addBtn = document.getElementById("add");
 
-const list = document.getElementById("list")
-const addBtn = document.getElementById("add")
+let counter = 1;       // Numeracja elementów
+let dragged = null;    // Element przeciągany
+let items = [];        // Tablica przechowująca dane
 
-let counter = 1
-let dragged = null
+// Funkcja renderująca listę z tablicy
+function render() {
+    list.innerHTML = "";
 
+    items.forEach((text, index) => {
+        const li = document.createElement("li");
+        li.draggable = true;
 
-/* DODAWANIE ELEMENTU */
+        li.innerHTML = `
+            ${text}
+            <button>Usuń</button>
+        `;
 
+        // Usuwanie elementu
+        li.querySelector("button").onclick = () => {
+            items.splice(index, 1);
+            render();
+        };
+
+        // Drag start
+        li.addEventListener("dragstart", () => {
+            dragged = li;
+            li.classList.add("dragging");
+        });
+
+        // Drag end
+        li.addEventListener("dragend", () => {
+            li.classList.remove("dragging");
+            dragged = null;
+            // Aktualizacja tablicy po przesunięciu
+            const updatedItems = [];
+            list.querySelectorAll("li").forEach(liEl => {
+                updatedItems.push(liEl.textContent.replace("Usuń", "").trim());
+            });
+            items = updatedItems;
+        });
+
+        list.appendChild(li);
+    });
+}
+
+// Dodawanie nowego elementu
 addBtn.onclick = () => {
+    items.push("Element " + counter++);
+    render();
+};
 
-const li = document.createElement("li")
-
-li.draggable = true
-
-li.innerHTML = `
-Element ${counter++}
-<button>Usuń</button>
-`
-
-/* USUWANIE */
-
-li.querySelector("button").onclick = () => {
-li.remove()
-}
-
-/* DRAG START */
-
-li.addEventListener("dragstart", () => {
-dragged = li
-li.classList.add("dragging")
-})
-
-/* DRAG END */
-
-li.addEventListener("dragend", () => {
-li.classList.remove("dragging")
-dragged = null
-})
-
-list.appendChild(li)
-
-}
-
-
-/* MIEJSCE WSTAWIENIA */
-
+// Drag over
 list.addEventListener("dragover", e => {
+    e.preventDefault();
 
-e.preventDefault()
+    const itemsHTML = [...list.querySelectorAll("li:not(.dragging)")];
+    let nextItem = null;
 
-const items = [...list.querySelectorAll("li:not(.dragging)")]
+    for (let item of itemsHTML) {
+        const box = item.getBoundingClientRect();
+        if (e.clientY < box.top + box.height / 2) {
+            nextItem = item;
+            break;
+        }
+    }
 
-let nextItem = null
-
-for (let item of items){
-
-const box = item.getBoundingClientRect()
-
-if(e.clientY < box.top + box.height / 2){
-nextItem = item
-break
-}
-
-}
-
-if(nextItem){
-list.insertBefore(dragged, nextItem)
-}else{
-list.appendChild(dragged)
-}
-
-})
-
+    if (nextItem) {
+        list.insertBefore(dragged, nextItem);
+    } else {
+        list.appendChild(dragged);
+    }
+});
 </script>
 
 </body>
