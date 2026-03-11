@@ -1,31 +1,48 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Tablica asocjacyjna JS</title>
+<meta charset="UTF-8">
+<title>Tablica asocjacyjna</title>
 </head>
 <body>
 
-<h2>Tablica asocjacyjna w JavaScript</h2>
+<h2>Tablica asocjacyjna w JS</h2>
+
+<button onclick="dodaj()">Dodaj dane</button>
+<button onclick="pokaz()">Pokaż dane</button>
+<button onclick="pobierz()">Pobierz wiek</button>
 
 <p id="wynik"></p>
 
 <script>
-    // tablica asocjacyjna (obiekt)
-    let osoba = {
-        imie: "Jan",
-        nazwisko: "Kowalski",
-        wiek: 25,
-        miasto: "Warszawa"
-    };
 
-    // odczyt danych
-    let tekst = "Imię: " + osoba.imie + "<br>" +
-                "Nazwisko: " + osoba.nazwisko + "<br>" +
-                "Wiek: " + osoba.wiek + "<br>" +
-                "Miasto: " + osoba.miasto;
+// tablica asocjacyjna
+let osoba = {};
+
+// funkcja dodająca dane
+function dodaj(){
+    osoba["imie"] = "Jan";
+    osoba["nazwisko"] = "Kowalski";
+    osoba["wiek"] = 25;
+}
+
+// funkcja pokazująca wszystkie dane
+function pokaz(){
+    let tekst = "";
+
+    for(let klucz in osoba){
+        tekst += klucz + ": " + osoba[klucz] + "<br>";
+    }
 
     document.getElementById("wynik").innerHTML = tekst;
+}
+
+// funkcja pobierająca jedną wartość
+function pobierz(){
+    let wiek = osoba["wiek"];
+    document.getElementById("wynik").innerHTML = "Wiek: " + wiek;
+}
+
 </script>
 
 </body>
