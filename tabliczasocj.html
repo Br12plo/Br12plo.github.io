@@ -2,45 +2,132 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Tablica asocjacyjna</title>
+<title>Tablica asocjacyjna JS</title>
+
+<style>
+body{
+    font-family: Arial;
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    width:350px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+h2{
+    margin-bottom:15px;
+}
+
+input{
+    width:90%;
+    padding:8px;
+    margin:5px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:10px 15px;
+    margin:5px;
+    border:none;
+    border-radius:6px;
+    background:#4facfe;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0077ff;
+    transform:scale(1.05);
+}
+
+#wynik{
+    margin-top:15px;
+    text-align:left;
+}
+</style>
+
 </head>
 <body>
 
-<h2>Tablica asocjacyjna w JS</h2>
+<div class="container">
 
-<button onclick="dodaj()">Dodaj dane</button>
-<button onclick="pokaz()">Pokaż dane</button>
-<button onclick="pobierz()">Pobierz wiek</button>
+<h2>Tablica asocjacyjna</h2>
 
-<p id="wynik"></p>
+<input id="klucz" placeholder="Podaj klucz np. imie">
+<input id="wartosc" placeholder="Podaj wartość">
+
+<br>
+
+<button onclick="dodaj()">Dodaj</button>
+<button onclick="pokaz()">Pokaż wszystko</button>
+<button onclick="usun()">Usuń klucz</button>
+
+<div id="wynik"></div>
+
+</div>
 
 <script>
 
-// tablica asocjacyjna
-let osoba = {};
+let tablica = {};
 
-// funkcja dodająca dane
+// dodawanie elementu
 function dodaj(){
-    osoba["imie"] = "Jan";
-    osoba["nazwisko"] = "Kowalski";
-    osoba["wiek"] = 25;
+
+    let klucz = document.getElementById("klucz").value;
+    let wartosc = document.getElementById("wartosc").value;
+
+    if(klucz === "" || wartosc === ""){
+        alert("Wpisz klucz i wartość");
+        return;
+    }
+
+    tablica[klucz] = wartosc;
+
+    document.getElementById("klucz").value="";
+    document.getElementById("wartosc").value="";
+
+    pokaz();
 }
 
-// funkcja pokazująca wszystkie dane
+// pokazywanie elementów
 function pokaz(){
+
     let tekst = "";
 
-    for(let klucz in osoba){
-        tekst += klucz + ": " + osoba[klucz] + "<br>";
+    for(let k in tablica){
+        tekst += "<b>" + k + "</b>: " + tablica[k] + "<br>";
+    }
+
+    if(tekst === ""){
+        tekst = "Tablica jest pusta";
     }
 
     document.getElementById("wynik").innerHTML = tekst;
 }
 
-// funkcja pobierająca jedną wartość
-function pobierz(){
-    let wiek = osoba["wiek"];
-    document.getElementById("wynik").innerHTML = "Wiek: " + wiek;
+// usuwanie elementu
+function usun(){
+
+    let klucz = document.getElementById("klucz").value;
+
+    if(tablica[klucz]){
+        delete tablica[klucz];
+        pokaz();
+    } else{
+        alert("Nie ma takiego klucza");
+    }
+
 }
 
 </script>
