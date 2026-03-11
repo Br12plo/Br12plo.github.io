@@ -5,6 +5,7 @@
 <title>Tablica asocjacyjna JS</title>
 
 <style>
+
 body{
     font-family: Arial;
     background: linear-gradient(135deg,#4facfe,#00f2fe);
@@ -18,7 +19,7 @@ body{
     background:white;
     padding:25px;
     border-radius:12px;
-    width:350px;
+    width:380px;
     box-shadow:0 10px 25px rgba(0,0,0,0.2);
     text-align:center;
 }
@@ -37,7 +38,7 @@ input{
 
 button{
     padding:10px 15px;
-    margin:5px;
+    margin:4px;
     border:none;
     border-radius:6px;
     background:#4facfe;
@@ -55,16 +56,17 @@ button:hover{
     margin-top:15px;
     text-align:left;
 }
-</style>
 
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
 <h2>Tablica asocjacyjna</h2>
 
-<input id="klucz" placeholder="Podaj klucz np. imie">
+<input id="klucz" placeholder="Podaj klucz (np. imie)">
 <input id="wartosc" placeholder="Podaj wartość">
 
 <br>
@@ -72,6 +74,10 @@ button:hover{
 <button onclick="dodaj()">Dodaj</button>
 <button onclick="pokaz()">Pokaż wszystko</button>
 <button onclick="usun()">Usuń klucz</button>
+<button onclick="czyIstnieje()">Sprawdź klucz</button>
+<button onclick="policz()">Policz elementy</button>
+<button onclick="szukaj()">Szukaj wartości</button>
+<button onclick="wyczysc()">Wyczyść tablicę</button>
 
 <div id="wynik"></div>
 
@@ -100,7 +106,8 @@ function dodaj(){
     pokaz();
 }
 
-// pokazywanie elementów
+
+// wyświetlanie tablicy
 function pokaz(){
 
     let tekst = "";
@@ -114,19 +121,81 @@ function pokaz(){
     }
 
     document.getElementById("wynik").innerHTML = tekst;
+
 }
+
 
 // usuwanie elementu
 function usun(){
 
     let klucz = document.getElementById("klucz").value;
 
-    if(tablica[klucz]){
+    if(klucz in tablica){
         delete tablica[klucz];
         pokaz();
-    } else{
+    }else{
         alert("Nie ma takiego klucza");
     }
+
+}
+
+
+// sprawdzanie czy klucz istnieje
+function czyIstnieje(){
+
+    let klucz = document.getElementById("klucz").value;
+
+    if(klucz in tablica){
+        alert("Klucz istnieje w tablicy");
+    }else{
+        alert("Klucz NIE istnieje");
+    }
+
+}
+
+
+// liczenie elementów
+function policz(){
+
+    let ile = Object.keys(tablica).length;
+
+    document.getElementById("wynik").innerHTML =
+    "Liczba elementów w tablicy: " + ile;
+
+}
+
+
+// wyszukiwanie wartości
+function szukaj(){
+
+    let wartosc = document.getElementById("wartosc").value;
+    let znaleziono = false;
+
+    for(let k in tablica){
+
+        if(tablica[k] == wartosc){
+            znaleziono = true;
+            document.getElementById("wynik").innerHTML =
+            "Znaleziono wartość przy kluczu: " + k;
+        }
+
+    }
+
+    if(!znaleziono){
+        document.getElementById("wynik").innerHTML =
+        "Nie znaleziono takiej wartości";
+    }
+
+}
+
+
+// czyszczenie tablicy
+function wyczysc(){
+
+    tablica = {};
+
+    document.getElementById("wynik").innerHTML =
+    "Tablica została wyczyszczona";
 
 }
 
