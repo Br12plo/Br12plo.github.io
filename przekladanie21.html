@@ -2,218 +2,130 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Przekładanie w JS</title>
+<title>Przekładanie elementów</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
 
 body{
 font-family:Arial;
 background:#111;
-color:#dfff3f;
-padding:30px;
+color:white;
+padding:40px;
 }
-
-h1,h2{margin-bottom:15px}
 
 button{
-background:#dfff3f;
-border:none;
-padding:8px 14px;
-border-radius:8px;
+padding:10px 15px;
+margin-bottom:20px;
 cursor:pointer;
-margin-right:10px;
 }
 
-ul{list-style:none}
+ul{
+list-style:none;
+padding:0;
+max-width:400px;
+}
 
 li{
-background:#000;
-padding:16px;
+background:#333;
+padding:15px;
 margin-bottom:10px;
-border-left:5px solid #dfff3f;
-border-radius:10px;
+border-radius:8px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+cursor:grab;
 }
 
-li.scrap{cursor:grab}
-li.dragging{opacity:0.4}
-
-#gallery img{
-width:200px;
-cursor:pointer;
-border-radius:10px;
-margin-right:10px;
+li.dragging{
+opacity:0.4;
 }
 
-#lightbox{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-#lightbox.active{display:flex}
-
-#lightbox img{max-width:80%}
-
-#close{
-position:absolute;
-top:20px;
-right:30px;
-color:white;
-font-size:30px;
-cursor:pointer;
-}
 </style>
 </head>
 
 <body>
 
-<h1>Drag & Drop demo</h1>
+<h1>Lista elementów</h1>
 
-<h2>Złom</h2>
+<button id="add">Dodaj element</button>
 
-<button id="addScrap">Dodaj złom</button>
-
-<ul id="scrapList"></ul>
-
-<h2>Galeria</h2>
-
-<div id="gallery">
-<img src="https://picsum.photos/600/400?1">
-<img src="https://picsum.photos/600/400?2">
-<img src="https://picsum.photos/600/400?3">
-</div>
-
-<div id="lightbox">
-<span id="close">✖</span>
-<img id="lightboxImg">
-</div>
+<ul id="list"></ul>
 
 <script>
 
-/* DANE */
+const list = document.getElementById("list")
+const addBtn = document.getElementById("add")
 
-const scrapItems=[
-"Rura 🔧",
-"Elektronika 💾",
-"Monitor 📺",
-"Pancerz 🛡️",
-"Moduł ⚡"
-]
+let counter = 1
+let dragged = null
 
-const scrapList=document.getElementById("scrapList")
 
-/* TWORZENIE ELEMENTU */
+/* DODAWANIE ELEMENTU */
 
-function createScrap(){
+addBtn.onclick = () => {
 
-const li=document.createElement("li")
-li.classList.add("scrap")
-li.draggable=true
+const li = document.createElement("li")
 
-li.textContent=
-scrapItems[Math.floor(Math.random()*scrapItems.length)]
+li.draggable = true
 
-return li
+li.innerHTML = `
+Element ${counter++}
+<button>Usuń</button>
+`
+
+/* USUWANIE */
+
+li.querySelector("button").onclick = () => {
+li.remove()
 }
 
-/* DODAWANIE */
+/* DRAG START */
 
-document.getElementById("addScrap").addEventListener("click",()=>{
-scrapList.appendChild(createScrap())
+li.addEventListener("dragstart", () => {
+dragged = li
+li.classList.add("dragging")
 })
 
-/* STARTOWE ELEMENTY */
+/* DRAG END */
 
-for(let i=0;i<4;i++){
-scrapList.appendChild(createScrap())
-}
+li.addEventListener("dragend", () => {
+li.classList.remove("dragging")
+dragged = null
+})
 
-/* DRAG */
-
-let dragged=null
-
-scrapList.addEventListener("dragstart",e=>{
-
-if(e.target.classList.contains("scrap")){
-
-dragged=e.target
-e.target.classList.add("dragging")
-
-/* wymagane w wielu przeglądarkach */
-e.dataTransfer.setData("text","")
+list.appendChild(li)
 
 }
 
-})
 
-scrapList.addEventListener("dragend",e=>{
-e.target.classList.remove("dragging")
-})
+/* MIEJSCE WSTAWIENIA */
 
-scrapList.addEventListener("dragover",e=>{
+list.addEventListener("dragover", e => {
 
 e.preventDefault()
 
-const after=getAfterElement(scrapList,e.clientY)
+const items = [...list.querySelectorAll("li:not(.dragging)")]
 
-if(after==null){
-scrapList.appendChild(dragged)
+let nextItem = null
+
+for (let item of items){
+
+const box = item.getBoundingClientRect()
+
+if(e.clientY < box.top + box.height / 2){
+nextItem = item
+break
+}
+
+}
+
+if(nextItem){
+list.insertBefore(dragged, nextItem)
 }else{
-scrapList.insertBefore(dragged,after)
+list.appendChild(dragged)
 }
 
 })
-
-function getAfterElement(container,y){
-
-const elements=[...container.querySelectorAll(".scrap:not(.dragging)")]
-
-let closest=null
-let closestOffset=Number.NEGATIVE_INFINITY
-
-elements.forEach(el=>{
-
-const box=el.getBoundingClientRect()
-const offset=y-box.top-box.height/2
-
-if(offset<0 && offset>closestOffset){
-closestOffset=offset
-closest=el
-}
-
-})
-
-return closest
-
-}
-
-/* LIGHTBOX */
-
-const lightbox=document.getElementById("lightbox")
-const lightboxImg=document.getElementById("lightboxImg")
-
-document.querySelectorAll("#gallery img").forEach(img=>{
-
-img.addEventListener("click",()=>{
-lightbox.classList.add("active")
-lightboxImg.src=img.src
-})
-
-})
-
-document.getElementById("close").onclick=()=>{
-lightbox.classList.remove("active")
-}
 
 </script>
 
