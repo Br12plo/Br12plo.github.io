@@ -5,7 +5,6 @@
 <title>Tablica asocjacyjna JS</title>
 
 <style>
-
 body{
     font-family: Arial;
     background: linear-gradient(135deg,#4facfe,#00f2fe);
@@ -56,21 +55,17 @@ button:hover{
     margin-top:15px;
     text-align:left;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
 <h2>Tablica asocjacyjna</h2>
 
 <input id="klucz" placeholder="Podaj klucz (np. imie)">
 <input id="wartosc" placeholder="Podaj wartość">
-
 <br>
-
 <button onclick="dodaj()">Dodaj</button>
 <button onclick="pokaz()">Pokaż wszystko</button>
 <button onclick="usun()">Usuń klucz</button>
@@ -80,18 +75,15 @@ button:hover{
 <button onclick="wyczysc()">Wyczyść tablicę</button>
 
 <div id="wynik"></div>
-
 </div>
 
 <script>
+let tablica = {}; // tablica asocjacyjna (obiekt JS)
 
-let tablica = {};
-
-// dodawanie elementu
+// Dodawanie elementu
 function dodaj(){
-
-    let klucz = document.getElementById("klucz").value;
-    let wartosc = document.getElementById("wartosc").value;
+    let klucz = document.getElementById("klucz").value.trim();
+    let wartosc = document.getElementById("wartosc").value.trim();
 
     if(klucz === "" || wartosc === ""){
         alert("Wpisz klucz i wartość");
@@ -99,106 +91,74 @@ function dodaj(){
     }
 
     tablica[klucz] = wartosc;
-
     document.getElementById("klucz").value="";
     document.getElementById("wartosc").value="";
-
     pokaz();
 }
 
-
-// wyświetlanie tablicy
+// Wyświetlanie tablicy
 function pokaz(){
-
     let tekst = "";
-
     for(let k in tablica){
         tekst += "<b>" + k + "</b>: " + tablica[k] + "<br>";
     }
-
     if(tekst === ""){
         tekst = "Tablica jest pusta";
     }
-
     document.getElementById("wynik").innerHTML = tekst;
-
 }
 
-
-// usuwanie elementu
+// Usuwanie elementu
 function usun(){
-
-    let klucz = document.getElementById("klucz").value;
-
+    let klucz = document.getElementById("klucz").value.trim();
     if(klucz in tablica){
         delete tablica[klucz];
         pokaz();
-    }else{
+    } else {
         alert("Nie ma takiego klucza");
     }
-
 }
 
-
-// sprawdzanie czy klucz istnieje
+// Sprawdzanie czy klucz istnieje
 function czyIstnieje(){
-
-    let klucz = document.getElementById("klucz").value;
-
+    let klucz = document.getElementById("klucz").value.trim();
     if(klucz in tablica){
         alert("Klucz istnieje w tablicy");
-    }else{
+    } else {
         alert("Klucz NIE istnieje");
     }
-
 }
 
-
-// liczenie elementów
+// Liczenie elementów
 function policz(){
-
     let ile = Object.keys(tablica).length;
-
-    document.getElementById("wynik").innerHTML =
-    "Liczba elementów w tablicy: " + ile;
-
+    document.getElementById("wynik").innerHTML = "Liczba elementów w tablicy: " + ile;
 }
 
-
-// wyszukiwanie wartości
+// Wyszukiwanie wartości – używamy nowej tablicy `new Array()`
 function szukaj(){
-
-    let wartosc = document.getElementById("wartosc").value;
-    let znaleziono = false;
+    let wartosc = document.getElementById("wartosc").value.trim();
+    let znalezione = new Array(); // <- użycie new Array()
 
     for(let k in tablica){
-
         if(tablica[k] == wartosc){
-            znaleziono = true;
-            document.getElementById("wynik").innerHTML =
-            "Znaleziono wartość przy kluczu: " + k;
+            znalezione.push(k);
         }
-
     }
 
-    if(!znaleziono){
+    if(znalezione.length > 0){
         document.getElementById("wynik").innerHTML =
-        "Nie znaleziono takiej wartości";
+            "Znaleziono wartość przy kluczach: " + znalezione.join(", ");
+    } else {
+        document.getElementById("wynik").innerHTML = "Nie znaleziono takiej wartości";
     }
-
 }
 
-
-// czyszczenie tablicy
+// Czyszczenie tablicy
 function wyczysc(){
-
     tablica = {};
-
-    document.getElementById("wynik").innerHTML =
-    "Tablica została wyczyszczona";
-
+    document.getElementById("wynik").innerHTML = "Tablica została wyczyszczona";
 }
-
 </script>
 
 </body>
