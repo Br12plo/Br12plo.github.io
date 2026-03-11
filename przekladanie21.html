@@ -53,45 +53,36 @@ li.dragging {
 const list = document.getElementById("list");
 const addBtn = document.getElementById("add");
 
-let counter = 1;       // Numeracja elementów
-let dragged = null;    // Element przeciągany
-let items = [];        // Tablica przechowująca dane
+let counter = 1;
+let draggedIndex = null; 
+let items = [];          // główna tablica
+let newArray = [];       // dodatkowa tablica (np. backup)
 
-// Funkcja renderująca listę z tablicy
 function render() {
     list.innerHTML = "";
-
     items.forEach((text, index) => {
         const li = document.createElement("li");
         li.draggable = true;
+        li.dataset.index = index;
 
         li.innerHTML = `
             ${text}
             <button>Usuń</button>
         `;
 
-        // Usuwanie elementu
         li.querySelector("button").onclick = () => {
             items.splice(index, 1);
             render();
         };
 
-        // Drag start
         li.addEventListener("dragstart", () => {
-            dragged = li;
+            draggedIndex = index;
             li.classList.add("dragging");
         });
 
-        // Drag end
         li.addEventListener("dragend", () => {
             li.classList.remove("dragging");
-            dragged = null;
-            // Aktualizacja tablicy po przesunięciu
-            const updatedItems = [];
-            list.querySelectorAll("li").forEach(liEl => {
-                updatedItems.push(liEl.textContent.replace("Usuń", "").trim());
-            });
-            items = updatedItems;
+            draggedIndex = null;
         });
 
         list.appendChild(li);
@@ -100,7 +91,9 @@ function render() {
 
 // Dodawanie nowego elementu
 addBtn.onclick = () => {
-    items.push("Element " + counter++);
+    const newItem = "Element " + counter++;
+    items.push(newItem);
+    newArray.push(newItem); // zapisujemy element w dodatkowej tablicy
     render();
 };
 
@@ -108,6 +101,7 @@ addBtn.onclick = () => {
 list.addEventListener("dragover", e => {
     e.preventDefault();
 
+    const draggingEl = list.querySelector(".dragging");
     const itemsHTML = [...list.querySelectorAll("li:not(.dragging)")];
     let nextItem = null;
 
@@ -120,11 +114,19 @@ list.addEventListener("dragover", e => {
     }
 
     if (nextItem) {
-        list.insertBefore(dragged, nextItem);
+        list.insertBefore(draggingEl, nextItem);
     } else {
-        list.appendChild(dragged);
+        list.appendChild(draggingEl);
     }
+
+    // Aktualizacja tablicy items w czasie rzeczywistym
+    const updatedItems = [];
+    list.querySelectorAll("li").forEach(li => {
+        updatedItems.push(li.textContent.replace("Usuń","").trim());
+    });
+    items = updatedItems;
 });
+
 </script>
 
 </body>
