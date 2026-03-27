@@ -78,9 +78,9 @@ button:hover{
 </div>
 
 <script>
-let tablica = {}; // tablica asocjacyjna (obiekt JS)
+let tablica = {}; // tablica asocjacyjna
 
-// Dodawanie elementu
+// Dodawanie
 function dodaj(){
     let klucz = document.getElementById("klucz").value.trim();
     let wartosc = document.getElementById("wartosc").value.trim();
@@ -91,26 +91,31 @@ function dodaj(){
     }
 
     tablica[klucz] = wartosc;
+
     document.getElementById("klucz").value="";
     document.getElementById("wartosc").value="";
+
     pokaz();
 }
 
-// Wyświetlanie tablicy
+// Wyświetlanie
 function pokaz(){
     let tekst = "";
     for(let k in tablica){
         tekst += "<b>" + k + "</b>: " + tablica[k] + "<br>";
     }
+
     if(tekst === ""){
         tekst = "Tablica jest pusta";
     }
+
     document.getElementById("wynik").innerHTML = tekst;
 }
 
-// Usuwanie elementu
+// Usuwanie
 function usun(){
     let klucz = document.getElementById("klucz").value.trim();
+
     if(klucz in tablica){
         delete tablica[klucz];
         pokaz();
@@ -119,9 +124,10 @@ function usun(){
     }
 }
 
-// Sprawdzanie czy klucz istnieje
+// Sprawdzanie
 function czyIstnieje(){
     let klucz = document.getElementById("klucz").value.trim();
+
     if(klucz in tablica){
         alert("Klucz istnieje w tablicy");
     } else {
@@ -129,35 +135,44 @@ function czyIstnieje(){
     }
 }
 
-// Liczenie elementów
+// Liczenie
 function policz(){
     let ile = Object.keys(tablica).length;
-    document.getElementById("wynik").innerHTML = "Liczba elementów w tablicy: " + ile;
+    document.getElementById("wynik").innerHTML =
+        "Liczba elementów: " + ile;
 }
 
-// Wyszukiwanie wartości – używamy nowej tablicy `new Array()`
+// 🔥 SZUKANIE – poprawione użycie ARRAY
 function szukaj(){
     let wartosc = document.getElementById("wartosc").value.trim();
-    let znalezione = new Array(); // <- użycie new Array()
+
+    let znalezione = new Array(); // użycie Array
 
     for(let k in tablica){
         if(tablica[k] == wartosc){
-            znalezione.push(k);
+            znalezione.push({klucz: k, wartosc: tablica[k]});
         }
     }
 
     if(znalezione.length > 0){
-        document.getElementById("wynik").innerHTML =
-            "Znaleziono wartość przy kluczach: " + znalezione.join(", ");
+        let tekst = "Znalezione pary:<br>";
+
+        znalezione.forEach(function(el){
+            tekst += "<b>" + el.klucz + "</b>: " + el.wartosc + "<br>";
+        });
+
+        document.getElementById("wynik").innerHTML = tekst;
     } else {
-        document.getElementById("wynik").innerHTML = "Nie znaleziono takiej wartości";
+        document.getElementById("wynik").innerHTML =
+            "Nie znaleziono takiej wartości";
     }
 }
 
-// Czyszczenie tablicy
+// Czyszczenie
 function wyczysc(){
     tablica = {};
-    document.getElementById("wynik").innerHTML = "Tablica została wyczyszczona";
+    document.getElementById("wynik").innerHTML =
+        "Tablica została wyczyszczona";
 }
 </script>
 
